@@ -1,4 +1,4 @@
-from base import BaseSolver
+from Base import BaseSolver
 import re
 from functools import lru_cache
 from pymorphy2 import MorphAnalyzer
