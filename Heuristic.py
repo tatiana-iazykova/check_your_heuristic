@@ -1,11 +1,14 @@
 from base import BaseSolver
 import re
 from functools import lru_cache
+from pymorphy2 import MorphAnalyzer
+
 
 class HeurisitcSolver(BaseSolver):
    
     def __init__(self, path: str, path_valid=None):
         super(HeurisitcSolver, self).__init__(path, path_valid)
+        self.morph = MorphAnalyzer()
    
     def preprocess(self, columns):
       for column in columns:
@@ -20,8 +23,8 @@ class HeurisitcSolver(BaseSolver):
         return []
 
     @lru_cache(maxsize=128)
-    def lemmatize_word(self, token, pymorphy=m):
-      return pymorphy.parse(token)[0].normal_form
+    def lemmatize_word(self, token):
+      return self.morph.parse(token)[0].normal_form
 
     def lemmatize_text(self, text):
       return [self.lemmatize_word(w) for w in text]
