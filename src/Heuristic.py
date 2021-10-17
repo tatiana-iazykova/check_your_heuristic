@@ -1,6 +1,7 @@
 from Base import BaseSolver
 import pandas as pd
 
+
 class BaseHeuristicSolver(BaseSolver):
    
     def __init__(self, path: str, path_valid: str = None):
