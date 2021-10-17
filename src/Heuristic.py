@@ -1,5 +1,4 @@
 from Base import BaseSolver
-import re
 import pandas as pd
 
 class BaseHeuristicSolver(BaseSolver):
