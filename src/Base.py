@@ -15,7 +15,7 @@ seed_everything(42)
 
 class BaseSolver:
 
-    def __init__(self, path: str, path_valid=None, seed=42):
+    def __init__(self, config, path: str, path_valid=None, seed=42): # TODO add typehint
         
         self.path = path
         self.train = pd.read_json(path_or_buf=path, lines=True)
@@ -24,6 +24,8 @@ class BaseSolver:
             self.valid = pd.read_json(path_or_buf=path_valid, lines=True)
         else:
             self.valid = None
+
+        self.target_name = config["target_name"]
     
     def all_methods(self):
 
@@ -34,7 +36,7 @@ class BaseSolver:
             print("There are no Validation/Test set in this task")
             print("Making Predictions for Train dataset")
             test_size = len(self.train)
-            y_true = self.train.label
+            y_true = self.train[self.target_name]
             
         print()
         print(f"Making Prediction based on Majority Class")
@@ -63,7 +65,7 @@ class BaseSolver:
         return: List of predictions
         """
 
-        prediction = self.train.label.mode()[0]
+        prediction = self.train[self.target_name].mode()[0]
         y_pred = [prediction] * test_size
         return y_pred
 
@@ -74,7 +76,7 @@ class BaseSolver:
         test_size: how many predictions should be made
         return: List of predictions
         """
-        options = sorted(self.train.label.unique())
+        options = sorted(self.train[self.target_name].unique())
         if test_size != 1:
             np.random.seed(self.seed)
         y_pred = np.random.choice(options, size=test_size)
@@ -88,7 +90,7 @@ class BaseSolver:
         test_size: how many predictions should be made
         return: List of predictions
         """
-        frequences = dict(self.train.label.value_counts(normalize=True))
+        frequences = dict(self.train[self.target_name].value_counts(normalize=True))
 
         labels = []
         probs = []
