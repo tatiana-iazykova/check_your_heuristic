@@ -1,9 +1,10 @@
 import os
-import random 
-
+import random
 import numpy as np
 from sklearn.metrics import classification_report
 import pandas as pd
+from typing import Dict, Any
+
 
 def seed_everything(seed: int):
     random.seed(seed)
@@ -11,11 +12,13 @@ def seed_everything(seed: int):
     np.random.RandomState(seed)
     np.random.seed(seed)
 
+
 seed_everything(42)
+
 
 class BaseSolver:
 
-    def __init__(self, config, path: str, path_valid=None, seed=42): # TODO add typehint
+    def __init__(self, config: Dict[str, Any], path: str, path_valid: str = None, seed: int = 42):  # TODO add typehint
         
         self.path = path
         self.train = pd.read_json(path_or_buf=path, lines=True)
@@ -53,12 +56,10 @@ class BaseSolver:
         y_pred = self.random_balanced_choice(test_size=test_size)
         self.show_report(y_true, y_pred)
 
-
-    def show_report(self, y_true, y_pred):
+    def show_report(self, y_true, y_pred):  # TODO add typehint
         print(classification_report(y_true, y_pred))
-    
-    
-    def majority_class(self, test_size):
+
+    def majority_class(self, test_size):  # TODO add typehint
         """
         Make prediction based on majority class of train dataset
         test_size: how many predictions should be made
@@ -69,7 +70,7 @@ class BaseSolver:
         y_pred = [prediction] * test_size
         return y_pred
 
-    def random_choice(self, test_size):
+    def random_choice(self, test_size):  # TODO add typehint
         """
         Make random predictions
         label: label column in df (str)
@@ -82,8 +83,7 @@ class BaseSolver:
         y_pred = np.random.choice(options, size=test_size)
         return y_pred
 
-
-    def random_balanced_choice(self, test_size):
+    def random_balanced_choice(self, test_size):  # TODO add typehint
         """
         Make random predictions with calculated probabilities
         label: label column in df (str)

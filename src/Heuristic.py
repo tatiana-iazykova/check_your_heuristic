@@ -1,4 +1,4 @@
-from Base import BaseSolver
+from src.Base import BaseSolver
 from typing import Dict, Any
 
 

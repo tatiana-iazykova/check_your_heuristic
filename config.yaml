@@ -1,5 +1,5 @@
-train_dataset_dir:
-valid_dataset_dir:
-column_name1:
-column_name2:
-target_name:
+train_dataset_dir: "resources/TERRa/train.jsonl"
+valid_dataset_dir: "resources/TERRa/val.jsonl"
+column_name1: "premise"
+column_name2: "hypothesis"
+target_name: "label"
