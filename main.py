@@ -1,10 +1,11 @@
 from src.Heuristic import BaseHeuristicSolver
 from src.utils import load_config
+import warnings
+warnings.filterwarnings("ignore")
 
 
 def main():
     config = load_config("config.yaml")
-    print(config)
     MyHeuristicCheck = BaseHeuristicSolver(path=config['train_dataset_dir'],
                                          path_valid=config['valid_dataset_dir'],
                                          config=config)
