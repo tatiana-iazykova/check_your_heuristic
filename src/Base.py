@@ -56,10 +56,10 @@ class BaseSolver:
         y_pred = self.random_balanced_choice(test_size=test_size)
         self.show_report(y_true, y_pred)
 
-    def show_report(self, y_true, y_pred):  # TODO add typehint
+    def show_report(self, y_true: pd.Series, y_pred: pd.Series):
         print(classification_report(y_true, y_pred))
 
-    def majority_class(self, test_size):  # TODO add typehint
+    def majority_class(self, test_size: int):
         """
         Make prediction based on majority class of train dataset
         test_size: how many predictions should be made
@@ -70,7 +70,7 @@ class BaseSolver:
         y_pred = [prediction] * test_size
         return y_pred
 
-    def random_choice(self, test_size):  # TODO add typehint
+    def random_choice(self, test_size: int):
         """
         Make random predictions
         label: label column in df (str)
@@ -83,18 +83,18 @@ class BaseSolver:
         y_pred = np.random.choice(options, size=test_size)
         return y_pred
 
-    def random_balanced_choice(self, test_size):  # TODO add typehint
+    def random_balanced_choice(self, test_size: int):
         """
         Make random predictions with calculated probabilities
         label: label column in df (str)
         test_size: how many predictions should be made
         return: List of predictions
         """
-        frequences = dict(self.train[self.target_name].value_counts(normalize=True))
+        frequencies = dict(self.train[self.target_name].value_counts(normalize=True))
 
         labels = []
         probs = []
-        for key, value in frequences.items():
+        for key, value in frequencies.items():
             labels.append(key)
             probs.append(value)
         if test_size != 1:
