@@ -9,10 +9,3 @@ class BaseHeuristicSolver(BaseSolver):
     
     def check_heuristics(self):
         pass
-
-    def check_baselines(self):
-        self.all_methods()
-
-
-
-
