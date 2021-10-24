@@ -3,7 +3,8 @@ import random
 import numpy as np
 from sklearn.metrics import classification_report
 import pandas as pd
-from typing import Dict, Any
+from nptyping import NDArray
+from typing import Dict, Any, List, Union
 
 
 def seed_everything(seed: int):
@@ -59,7 +60,7 @@ class BaseSolver:
     def show_report(self, y_true: pd.Series, y_pred: pd.Series):
         print(classification_report(y_true, y_pred))
 
-    def majority_class(self, test_size: int):
+    def majority_class(self, test_size: int) -> List[Union[str, int]]:
         """
         Make prediction based on majority class of train dataset
         test_size: how many predictions should be made
@@ -70,7 +71,7 @@ class BaseSolver:
         y_pred = [prediction] * test_size
         return y_pred
 
-    def random_choice(self, test_size: int):
+    def random_choice(self, test_size: int) -> NDArray[Any]:
         """
         Make random predictions
         label: label column in df (str)
@@ -83,7 +84,7 @@ class BaseSolver:
         y_pred = np.random.choice(options, size=test_size)
         return y_pred
 
-    def random_balanced_choice(self, test_size: int):
+    def random_balanced_choice(self, test_size: int) -> NDArray[Any]:
         """
         Make random predictions with calculated probabilities
         label: label column in df (str)
