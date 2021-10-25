@@ -1,0 +1,5 @@
+train_dataset_dir: "data/train.jsonl"
+valid_dataset_dir: "data/val.jsonl"
+column_name1: "premise"
+column_name2: "hypothesis"
+target_name: "label"
