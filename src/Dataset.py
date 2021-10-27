@@ -34,13 +34,16 @@ class Dataset:
             raise ValueError("Data type is not supported, please convert your dataset "
                              f"to one of the following formats {list(self.valid_data_types.keys())}.")
 
-    def _read_csv(self, path: str):
+    @staticmethod
+    def _read_csv(path: str):
         return pd.read_csv(filepath_or_buffer=path)
 
-    def _read_excel(self, path: str):
+    @staticmethod
+    def _read_excel(path: str):
         return pd.read_excel(io=path)
 
-    def _read_json(self, path: str):
+    @staticmethod
+    def _read_json(path: str):
         return pd.read_json(path_or_buf=path, lines=True)
 
 
