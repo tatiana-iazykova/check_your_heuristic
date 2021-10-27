@@ -30,6 +30,9 @@ class Dataset:
         _, extension = os.path.splitext(path)
         if extension in self.valid_data_types:
             return self.valid_data_types[extension](path)
+        else:
+            raise ValueError("Data type is not supported, please convert your dataset "
+                             f"to one of the following formats {list(self.valid_data_types.keys())}.")
 
     def _read_csv(self, path: str):
         return pd.read_csv(filepath_or_buffer=path)
