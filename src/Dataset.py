@@ -41,7 +41,7 @@ class Dataset:
         :param path: Path("../../some_file.csv")
         :return: dataframe
         """
-        return pd.read_csv(filepath_or_buffer=path)
+        return pd.read_csv(filepath_or_buffer=path, encoding="utf-8")
 
     @staticmethod
     def _read_excel(path: Path) -> pd.DataFrame:
@@ -50,7 +50,7 @@ class Dataset:
         :param path: Path("../../some_file.xlsx")
         :return: dataframe
         """
-        return pd.read_excel(io=path, engine="openpyxl")
+        return pd.read_excel(io=path, engine="openpyxl", encoding="utf-8")
 
     @staticmethod
     def _read_json(path: Path) -> pd.DataFrame:
@@ -59,7 +59,7 @@ class Dataset:
         :param path: Path("../../some_file.jsonl")
         :return: dataframe
         """
-        return pd.read_json(path_or_buf=path, lines=True)
+        return pd.read_json(path_or_buf=path, lines=True, encoding="utf-8")
 
 
 
