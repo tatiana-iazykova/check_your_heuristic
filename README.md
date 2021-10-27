@@ -1,5 +1,11 @@
 # check_your_heuristic
 
+To check your dataset fill the config and run:
+```python
+python main.py
+```
+ 
+
 | heuristic                                             | requirements                                   | approximate time |
 | ----------------------------------------------------- | ---------------------------------------------- | ---------------- |
 | one is a substring of another                         | none                                           | *5.6s all*       |
