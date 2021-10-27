@@ -23,8 +23,8 @@ class BaseSolver:
     def __init__(self, config: Dict[str, Any], dataset: Dataset, seed: int = 42):  # TODO add typehint
 
         self.train = dataset.train
-        self.seed = seed
         self.valid = dataset.valid
+        self.seed = seed
 
         self.target_name = config["target_name"]
     
