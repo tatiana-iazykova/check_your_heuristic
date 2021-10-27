@@ -5,6 +5,7 @@ from sklearn.metrics import classification_report
 import pandas as pd
 from nptyping import NDArray
 from typing import Dict, Any, List, Union
+from src.Dataset import Dataset
 
 
 def seed_everything(seed: int):
@@ -19,15 +20,11 @@ seed_everything(42)
 
 class BaseSolver:
 
-    def __init__(self, config: Dict[str, Any], path: str, path_valid: str = None, seed: int = 42):  # TODO add typehint
-        
-        self.path = path
-        self.train = pd.read_json(path_or_buf=path, lines=True)
+    def __init__(self, config: Dict[str, Any], dataset: Dataset, seed: int = 42):  # TODO add typehint
+
+        self.train = dataset.train
         self.seed = seed
-        if path_valid:
-            self.valid = pd.read_json(path_or_buf=path_valid, lines=True)
-        else:
-            self.valid = None
+        self.valid = dataset.valid
 
         self.target_name = config["target_name"]
     
