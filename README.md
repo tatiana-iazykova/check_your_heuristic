@@ -1,6 +1,6 @@
 # check_your_heuristic
 
-To check your dataset fill the config, using **unix-like** paths.
+To check your dataset fill the [config](config.yaml), using **unix-like** paths.
 
 Example config:
 ```yaml
