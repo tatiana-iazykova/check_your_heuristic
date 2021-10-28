@@ -14,10 +14,13 @@ class Dataset:
             '.json': self._read_json,
             '.jsonl': self._read_json
         }
-
-        self.train = self.read_data(Path(path).as_posix())
-        self.valid = self.read_data(Path(path_valid).as_posix()) if path_valid is not None else None
-        self.test = self.read_data(Path(path_test).as_posix()) if path_test is not None else None
+        path = Path(path).relative_to(path.parent)
+        path_valid = Path(path_valid).relative_to(path_valid.parent)
+        path_test = Path(path_test).relative_to(path_test.parent)
+        
+        self.train = self.read_data(path.as_posix())
+        self.valid = self.read_data(path_valid.as_posix()) if path_valid is not None else None
+        self.test = self.read_data(path_test.as_posix()) if path_test is not None else None
 
     def read_data(self, path: Path) -> pd.DataFrame:
         """
