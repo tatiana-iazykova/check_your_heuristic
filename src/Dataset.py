@@ -14,13 +14,10 @@ class Dataset:
             '.json': self._read_json,
             '.jsonl': self._read_json
         }
-        path = Path(path).relative_to(path.parent)
-        path_valid = Path(path_valid).relative_to(path_valid.parent)
-        path_test = Path(path_test).relative_to(path_test.parent)
-        
-        self.train = self.read_data(path.as_posix())
-        self.valid = self.read_data(path_valid.as_posix()) if path_valid is not None else None
-        self.test = self.read_data(path_test.as_posix()) if path_test is not None else None
+
+        self.train = self.read_data(Path(repr(path)[1:-1]).as_posix())
+        self.valid = self.read_data(Path(repr(path_valid)[1:-1]).as_posix()) if path_valid is not None else None
+        self.test = self.read_data(Path(repr(path_test)[1:-1]).as_posix()) if path_test is not None else None
 
     def read_data(self, path: Path) -> pd.DataFrame:
         """
@@ -34,7 +31,7 @@ class Dataset:
         if extension.lower() in self.valid_data_types:
             return self.valid_data_types[extension](path)
         else:
-            raise ValueError("Data type is not supported, please convert your dataset "
+            raise ValueError(f"Your data type ({extension}) is not supported, please convert your dataset "
                              f"to one of the following formats {list(self.valid_data_types.keys())}.")
 
     @staticmethod
