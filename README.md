@@ -1,10 +1,20 @@
 # check_your_heuristic
 
-To check your dataset fill the config and run:
-```python
+To check your dataset fill the config, using **unix-like** paths.
+
+Example config:
+```yaml
+train_dataset_dir: "dataset/dir/train.jsonl"
+valid_dataset_dir: "dataset/dir/val.jsonl"
+column_name1: "premise"
+column_name2: "hypothesis"
+target_name: "label"
+```
+
+Then in console run:
+ ```python
 python main.py
 ```
- 
 
 | heuristic                                             | requirements                                   | approximate time |
 | ----------------------------------------------------- | ---------------------------------------------- | ---------------- |
