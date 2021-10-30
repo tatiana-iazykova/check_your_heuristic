@@ -1,5 +1,8 @@
 # check_your_heuristic
 
+Python >= 3.7 is required
+```pip install -r requirements.txt```
+
 To check your dataset fill the [config](config.yaml), using **unix-like** paths.
 
 Example config:
