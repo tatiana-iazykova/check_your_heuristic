@@ -4,7 +4,7 @@ import yaml
 
 
 def get_target_list(target_column: pd.Series) -> List:
-    return target_column.unique().to_list()
+    return target_column.unique().tolist()
 
 
 def get_correlated_words(column: pd.DataFrame) -> pd.DataFrame:
