@@ -10,8 +10,8 @@ def main():
     dataset = Dataset(path=config['train_dataset_dir'], path_valid=config['valid_dataset_dir'])
     solver = BasicHeuristics(dataset=dataset, config=config)
     solver.get_visuals()
-    # solver.check_heuristics()
-    # solver.all_methods()
+    solver.check_heuristics()
+    solver.all_methods()
 
 
 if __name__ == "__main__":
