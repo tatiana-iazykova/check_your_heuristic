@@ -5,7 +5,7 @@ import pandas as pd
 from src.utils import get_target_list
 from collections import Counter
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 
 class BasicHeuristics(BaseHeuristicSolver):
 
@@ -32,7 +32,7 @@ class BasicHeuristics(BaseHeuristicSolver):
 
         return left, right
 
-    def get_number_of_words(self, data: pd.DataFrame) -> None:  # Dict[str, int]
+    def check_number_of_words(self, data: pd.DataFrame) -> None:  # Dict[str, int]
         """
         Function that computes mean and median length of strings in regards to labels
         :param data: data set provided for checking
@@ -55,7 +55,18 @@ class BasicHeuristics(BaseHeuristicSolver):
                 round(data[data[self.target_name] == target]["lengths_column1"].median())
             result[f"median_lengths_column2_{target}"] = \
                 round(data[data[self.target_name] == target]["lengths_column2"].median())
+
+        self._plot_boxplot(data=data, column_name='lengths_column2', output_name=self.column_2)
+        self._plot_boxplot(data=data, column_name='lengths_column1', output_name=self.column_1)
         print(result)
+
+    def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
+        sns.boxplot(x=self.target_name, y=column_name, data=data)
+        plt.xlabel("Labels")
+        plt.ylabel("Number of words")
+        plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
+        plt.savefig(f"output/lengths_{output_name}.png")
+        plt.close()
 
     def check_substring(self, data: pd.DataFrame, length: int) -> Dict[str, Union[str, Dict[str, str]]]:
         """
@@ -131,11 +142,16 @@ class BasicHeuristics(BaseHeuristicSolver):
         _ = plt.title('Label distribution in train data', fontsize=14)
         _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                     labels=self.train[self.target_name].value_counts().keys(), pctdistance=0.5, textprops=dict(fontsize=12))
-        plt.show()
+        plt.savefig("output/Label_distribution_in_train_data.png")
+        plt.close()
+        self.check_number_of_words(data=self.train)
+
         if self.valid is not None:
             _ = plt.title('Label distribution in validation data', fontsize=14)
             _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=12))
-            plt.show()
+            plt.savefig("output/Label_distribution_in_validation_data.png")
+            plt.close()
+            self.check_number_of_words(data=self.valid)
 
