@@ -9,6 +9,7 @@ def main():
     config = load_config("config.yaml")
     dataset = Dataset(path=config['train_dataset_dir'], path_valid=config['valid_dataset_dir'])
     solver = BasicHeuristics(dataset=dataset, config=config)
+    solver.get_number_of_words(data=dataset.train)
     solver.check_heuristics()
     solver.all_methods()
 

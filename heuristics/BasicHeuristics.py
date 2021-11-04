@@ -4,6 +4,7 @@ from typing import Dict, Any, Union, Tuple
 import pandas as pd
 from src.utils import get_target_list
 from collections import Counter
+import matplotlib.pyplot as plt
 
 
 class BasicHeuristics(BaseHeuristicSolver):
@@ -30,6 +31,31 @@ class BasicHeuristics(BaseHeuristicSolver):
         right = text2 in text1
 
         return left, right
+
+    def get_number_of_words(self, data: pd.DataFrame) -> None:  # Dict[str, int]
+        """
+        Function that computes mean and median length of strings in regards to labels
+        :param data: data set provided for checking
+
+        Example output
+        :return: {'mean_lengths_column1_label1': 6, 'mean_lengths_column2_label1': 34,
+        'median_lengths_column1_label1': 5, 'median_lengths_column2_label1': 32,
+        'mean_lengths_column1_label2': 6, 'mean_lengths_column2_label2': 32,
+        'median_lengths_column1_label2': 5, 'median_lengths_column2_label2': 29}
+        """
+        result = {}
+        data["lengths_column1"] = data[self.column_1].apply(lambda x: len(x.split()))
+        data["lengths_column2"] = data[self.column_2].apply(lambda x: len(x.split()))
+        for target in self.target_list:
+            result[f"mean_lengths_column1_{target}"] = \
+                round(data[data[self.target_name] == target]["lengths_column1"].mean())
+            result[f"mean_lengths_column2_{target}"] = \
+                round(data[data[self.target_name] == target]["lengths_column2"].mean())
+            result[f"median_lengths_column1_{target}"] = \
+                round(data[data[self.target_name] == target]["lengths_column1"].median())
+            result[f"median_lengths_column2_{target}"] = \
+                round(data[data[self.target_name] == target]["lengths_column2"].median())
+        print(result)
 
     def check_substring(self, data: pd.DataFrame, length: int) -> Dict[str, Union[str, Dict[str, str]]]:
         """
@@ -99,3 +125,17 @@ class BasicHeuristics(BaseHeuristicSolver):
             counts = {k: f"{v / len(samples) * 100:.2f}%" for k, v in counts.items()}
             correlation[target] = counts
         return correlation
+
+    def get_visuals(self):
+
+        _ = plt.title('Label distribution in train data', fontsize=14)
+        _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
+                    labels=self.train[self.target_name].value_counts().keys(), pctdistance=0.5, textprops=dict(fontsize=12))
+        plt.show()
+        if self.valid is not None:
+            _ = plt.title('Label distribution in validation data', fontsize=14)
+            _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
+                        labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
+                        textprops=dict(fontsize=12))
+            plt.show()
+
