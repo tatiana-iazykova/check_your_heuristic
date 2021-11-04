@@ -6,6 +6,8 @@ from src.utils import get_target_list
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+
 
 class BasicHeuristics(BaseHeuristicSolver):
 
@@ -138,6 +140,9 @@ class BasicHeuristics(BaseHeuristicSolver):
         return correlation
 
     def get_visuals(self):
+
+        if not os.path.exists("output"):
+            os.mkdir("output")
 
         _ = plt.title('Label distribution in train data', fontsize=14)
         _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
