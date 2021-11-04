@@ -63,6 +63,13 @@ class BasicHeuristics(BaseHeuristicSolver):
         print(result)
 
     def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
+        """
+
+        :param data: data frame provided for checking
+        :param column_name: column to compute box plot
+        :param output_name: file_name to save
+        :return: None
+        """
         sns.boxplot(x=self.target_name, y=column_name, data=data)
         plt.xlabel("Labels")
         plt.ylabel("Number of words")
