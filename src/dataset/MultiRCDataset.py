@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 from src.dataset.BaseDataset import BaseDataset
+from typing import Iterator, Tuple, Any
 import json
 
 
@@ -16,7 +17,7 @@ class MultiRCDataset(BaseDataset):
     def __init__(self, path: str, path_valid: str = None, path_test: str = None):
         super(MultiRCDataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
 
-    def read_data(self, path: Path):
+    def read_data(self, path: Path) -> pd.DataFrame:
         """ get json file content as a pandas DataFrame"""
 
         df = pd.DataFrame(columns=['question', 'text', 'label', 'passage'])
@@ -37,13 +38,13 @@ class MultiRCDataset(BaseDataset):
 
         return df
 
-    def yield_lines(self, path: Path):
+    def yield_lines(self, path: Path) -> Iterator:
         """ yields json lines one by one """
         with open(path, encoding="utf-8") as f:
             for line in f:
                 yield json.loads(line)
 
-    def split_texts_and_questions(self, line):
+    def split_texts_and_questions(self, line) -> Tuple[str, Any]:
         """ transforms a complex json object into a single row dataframe"""
         text = line['passage']['text']
         questions = line['passage']['questions']
