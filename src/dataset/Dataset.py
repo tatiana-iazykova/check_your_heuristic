@@ -8,7 +8,6 @@ class Dataset(BaseDataset):
 
     def __init__(self, path: str, path_valid: str = None, path_test: str = None):
 
-        super(BaseDataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
         self.valid_data_types = {
             '.csv': self._read_csv,
             '.xls': self._read_excel,
@@ -16,6 +15,8 @@ class Dataset(BaseDataset):
             '.json': self._read_json,
             '.jsonl': self._read_json
         }
+
+        super(Dataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
 
     def read_data(self, path: Path) -> pd.DataFrame:
         """
