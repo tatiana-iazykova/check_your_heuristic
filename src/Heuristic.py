@@ -9,4 +9,4 @@ class BaseHeuristicSolver(BaseSolver):
         super(BaseHeuristicSolver, self).__init__(dataset=dataset, config=config)
     
     def check_heuristics(self):
-        pass
+        raise NotImplementedError
