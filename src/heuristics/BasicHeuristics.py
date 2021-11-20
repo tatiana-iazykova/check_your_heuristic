@@ -1,12 +1,11 @@
 from src.dataset.Dataset import Dataset
-from src.Heuristic import BaseHeuristicSolver
+from src.heuristics.Heuristic import BaseHeuristicSolver
 from typing import Dict, Any, Union, Tuple
 import pandas as pd
 from src.utils import get_target_list
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os
 
 
 class BasicHeuristics(BaseHeuristicSolver):
