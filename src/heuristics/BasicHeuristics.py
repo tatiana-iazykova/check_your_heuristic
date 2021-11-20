@@ -33,7 +33,7 @@ class BasicHeuristics(BaseHeuristicSolver):
 
         return left, right
 
-    def check_number_of_words(self, data: pd.DataFrame) -> None:  # Dict[str, int]
+    def check_number_of_words(self, data: pd.DataFrame) -> Dict[str, Dict[str, int]]:
         """
         Function that computes mean and median length of strings in regards to labels
         :param data: data set provided for checking
@@ -44,7 +44,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         'mean_lengths_column1_label2': 6, 'mean_lengths_column2_label2': 32,
         'median_lengths_column1_label2': 5, 'median_lengths_column2_label2': 29}
         """
-        result = {}
+        result = {"mean": {}, "median": {}}
         data["lengths_column1"] = data[self.column_1].apply(lambda x: len(x.split()))
         data["lengths_column2"] = data[self.column_2].apply(lambda x: len(x.split()))
         for target in self.target_list:
@@ -60,23 +60,9 @@ class BasicHeuristics(BaseHeuristicSolver):
         self._plot_boxplot(data=data, column_name='lengths_column2', output_name=self.column_2)
         self._plot_boxplot(data=data, column_name='lengths_column1', output_name=self.column_1)
         print(result)
+        return result
 
-    def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
-        """
-
-        :param data: data frame provided for checking
-        :param column_name: column to compute box plot
-        :param output_name: file_name to save
-        :return: None
-        """
-        sns.boxplot(x=self.target_name, y=column_name, data=data)
-        plt.xlabel("Labels")
-        plt.ylabel("Number of words")
-        plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
-        plt.savefig(f"output/lengths_{output_name}.png")
-        plt.close()
-
-    def check_substring(self, data: pd.DataFrame, length: int) -> Dict[str, Union[str, Dict[str, str]]]:
+    def check_substring(self, data: pd.DataFrame, length: int) -> Dict[str, Dict[str, Union[str, Dict[str, str]]]]:
         """
         Check if the heuristic check_substring is in the data frame and returns the percent of rows that have
         this heuristic present as well as the how it correlates with the labels
@@ -88,7 +74,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         'not_entailment': {False: '98.70%', True: '1.30%'}},
         'correlation__premise_hypothesis': {'entailment': {False: '100.00%'}, 'not_entailment': {False: '100.00%'}}}
         """
-        result = {}
+        result = {"coverage": {}, "correlation": {}}
         substring_heuristic = pd.DataFrame()
         substring_heuristic[["left", "right"]] = data.apply(
             lambda row: self.check_substring_function(
@@ -98,34 +84,77 @@ class BasicHeuristics(BaseHeuristicSolver):
             axis=1,
             result_type="expand"
         )
-        result[f"coverage_{self.column_1}_{self.column_2}"] = \
+        result["coverage"][f"{self.column_1}_{self.column_2}"] = \
             f'{substring_heuristic["left"].sum() / length * 100:.2f}%'
-        result[f"coverage_{self.column_2}_{self.column_1}"] = \
+        result["coverage"][f"{self.column_2}_{self.column_1}"] = \
             f'{substring_heuristic["right"].sum() / length:.2f}%'
 
-        result[f"correlation_{self.column_1}_{self.column_2}"] = self._get_correlation(
+        result["correlation"][f"{self.column_1}_{self.column_2}"] = self._get_correlation(
             heuristic_result=substring_heuristic["left"],
             data=data
         )
-        result[f"correlation_{self.column_2}_{self.column_1}"] = self._get_correlation(
+        result["correlation"][f"{self.column_2}_{self.column_1}"] = self._get_correlation(
             heuristic_result=substring_heuristic["right"],
             data=data
         )
 
         return result
 
-    def check_heuristics(self) -> None:  # Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
+    @staticmethod
+    def check_vocab_intersection(text1: str, text2: str) -> Tuple[bool, bool, bool, bool, bool, bool, bool]:
+        tokens1 = set(text1.split())
+        tokens2 = set(text2.split())
+
+        ten_percent = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.10
+        quarter = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.25
+        third = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.33
+        half = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.5
+        two_thirds = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.66
+        two_quarters = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.75
+        ninety_percent = len(tokens1 & tokens2) / len(tokens1 | tokens2) > 0.9
+
+        return ten_percent, quarter, third, half, two_thirds, two_quarters, ninety_percent
+
+    def heuristic_vocab_intersection(self, data: pd.DataFrame, length: int) -> Dict[str, Dict[str, Union[str, Dict[str, str]]]]:
+
+        result = {"coverage": {}, "correlation": {}}
+        thresholds_columns = ["0.1", "0.25", "0.33", "0.5", "0.66", "0.75", "0.9"]
+        vocab_intersection = pd.DataFrame(
+            columns=thresholds_columns
+        )
+        vocab_intersection[thresholds_columns] = data.apply(
+            lambda row: self.check_vocab_intersection(
+                text1=row[self.column_1],
+                text2=row[self.column_2]
+            ),
+            axis=1,
+            result_type="expand"
+        )
+        for element in thresholds_columns:
+            result["coverage"][f"threshold_{element}"] = \
+                f'{vocab_intersection[element].sum() / length * 100:.2f}%'
+            result["correlation"][f"threshold_{element}"] = self._get_correlation(
+                heuristic_result=vocab_intersection[element],
+                data=data
+            )
+        return result
+
+    def check_heuristics(self) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
         """
         Checks how the heuristics are present in the data sets and prints the results
         :return: None
         """
         result = dict()
         result["check_substring_train"] = self.check_substring(data=self.train, length=len(self.train))
+        result["vocab_intersection_train"] = self.heuristic_vocab_intersection(data=self.train, length=len(self.train))
         if self.valid is not None:
             result["check_substring_valid"] = self.check_substring(data=self.valid, length=len(self.valid))
-
+            result["vocab_intersection_valid"] = self.heuristic_vocab_intersection(data=self.valid,
+                                                                                   length=len(self.valid))
         for key, value in result.items():
             print(key, '\n', value, '\n')
+
+        return result
 
     def _get_correlation(self, heuristic_result: pd.Series, data: pd.DataFrame) -> Dict[str, str]:
         """
@@ -144,6 +173,21 @@ class BasicHeuristics(BaseHeuristicSolver):
             counts = {k: f"{v / len(samples) * 100:.2f}%" for k, v in counts.items()}
             correlation[target] = counts
         return correlation
+
+    def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
+        """
+
+        :param data: data frame provided for checking
+        :param column_name: column to compute box plot
+        :param output_name: file_name to save
+        :return: None
+        """
+        sns.boxplot(x=self.target_name, y=column_name, data=data)
+        plt.xlabel("Labels")
+        plt.ylabel("Number of words")
+        plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
+        plt.savefig(f"output/lengths_{output_name}.png")
+        plt.close()
 
     def get_visuals(self):
 
