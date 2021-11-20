@@ -1,6 +1,6 @@
 from src.Base import BaseSolver
 from typing import Dict, Any
-from src.Dataset import Dataset
+from src.dataset.Dataset import Dataset
 
 
 class BaseHeuristicSolver(BaseSolver):

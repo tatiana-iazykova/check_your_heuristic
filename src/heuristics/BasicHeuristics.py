@@ -1,4 +1,4 @@
-from src.Dataset import Dataset
+from src.dataset.Dataset import Dataset
 from src.Heuristic import BaseHeuristicSolver
 from typing import Dict, Any, Union, Tuple
 import pandas as pd
@@ -147,9 +147,6 @@ class BasicHeuristics(BaseHeuristicSolver):
         return correlation
 
     def get_visuals(self):
-
-        if not os.path.exists("output"):
-            os.mkdir("output")
 
         _ = plt.title('Label distribution in train data', fontsize=14)
         _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
