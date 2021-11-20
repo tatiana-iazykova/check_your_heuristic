@@ -39,22 +39,26 @@ class BasicHeuristics(BaseHeuristicSolver):
         :param data: data set provided for checking
 
         Example output
-        :return: {'mean_lengths_column1_label1': 6, 'mean_lengths_column2_label1': 34,
-        'median_lengths_column1_label1': 5, 'median_lengths_column2_label1': 32,
-        'mean_lengths_column1_label2': 6, 'mean_lengths_column2_label2': 32,
-        'median_lengths_column1_label2': 5, 'median_lengths_column2_label2': 29}
+        :return: {
+        'mean':
+        {'lengths_column1_entailment': 6, 'lengths_column2_entailment': 34,
+        'lengths_column1_not_entailment': 6, 'lengths_column2_not_entailment': 32},
+        'median':
+        {'lengths_column1_entailment': 5, 'lengths_column2_entailment': 32,
+        'lengths_column1_not_entailment': 5, 'lengths_column2_not_entailment': 29}}
         """
+
         result = {"mean": {}, "median": {}}
         data["lengths_column1"] = data[self.column_1].apply(lambda x: len(x.split()))
         data["lengths_column2"] = data[self.column_2].apply(lambda x: len(x.split()))
         for target in self.target_list:
-            result[f"mean_lengths_column1_{target}"] = \
+            result["mean"][f"lengths_column1_{target}"] = \
                 round(data[data[self.target_name] == target]["lengths_column1"].mean())
-            result[f"mean_lengths_column2_{target}"] = \
+            result["mean"][f"lengths_column2_{target}"] = \
                 round(data[data[self.target_name] == target]["lengths_column2"].mean())
-            result[f"median_lengths_column1_{target}"] = \
+            result["median"][f"lengths_column1_{target}"] = \
                 round(data[data[self.target_name] == target]["lengths_column1"].median())
-            result[f"median_lengths_column2_{target}"] = \
+            result["median"][f"lengths_column2_{target}"] = \
                 round(data[data[self.target_name] == target]["lengths_column2"].median())
 
         self._plot_boxplot(data=data, column_name='lengths_column2', output_name=self.column_2)
@@ -69,10 +73,18 @@ class BasicHeuristics(BaseHeuristicSolver):
 
         :param data: Train or Validation dataset
         :param length: Length of the dataset provided
-        :return: {'coverage_hypothesis_premise': '1.30%', 'coverage_premise_hypothesis': '0.00%',
-        'correlation_hypothesis_premise': {'entailment': {False: '98.69%', True: '1.31%'},
-        'not_entailment': {False: '98.70%', True: '1.30%'}},
-        'correlation__premise_hypothesis': {'entailment': {False: '100.00%'}, 'not_entailment': {False: '100.00%'}}}
+        :return:  {
+        'coverage':
+        {
+        'hypothesis_premise': '0.92%', 'premise_hypothesis': '0.00%'
+        },
+        'correlation':
+        {
+        'hypothesis_premise': {'entailment': {False: '98.68%', True: '1.32%'},
+                               'not_entailment': {False: '99.52%', True: '0.48%'}},
+        'premise_hypothesis': {'entailment': {False: '100.00%'}, 'not_entailment': {False: '100.00%'}}
+        }
+        }
         """
         result = {"coverage": {}, "correlation": {}}
         substring_heuristic = pd.DataFrame()
@@ -102,6 +114,15 @@ class BasicHeuristics(BaseHeuristicSolver):
 
     @staticmethod
     def check_vocab_intersection(text1: str, text2: str) -> Tuple[bool, bool, bool, bool, bool, bool, bool]:
+        """
+        Heuristic that converts strings to lowercase, splits them into word tokens to
+        checks whether their vocabulary intersects by the following thresholds:
+        0.1, 0.25, 0.33, 0.5, 0.66, 0.75 and 0.9
+
+        :param text1: "Cat is sleeping in the comfy chair"
+        :param text2: "The cat is sitting at the dining table"
+        :return: (True, False, False, False, False, False, False)
+        """
         tokens1 = set(text1.split())
         tokens2 = set(text2.split())
 
@@ -115,8 +136,38 @@ class BasicHeuristics(BaseHeuristicSolver):
 
         return ten_percent, quarter, third, half, two_thirds, two_quarters, ninety_percent
 
-    def heuristic_vocab_intersection(self, data: pd.DataFrame, length: int) -> Dict[str, Dict[str, Union[str, Dict[str, str]]]]:
-
+    def heuristic_vocab_intersection(self, data: pd.DataFrame, length: int) -> \
+            Dict[str, Dict[str, Union[str, Dict[str, str]]]]:
+        """
+        Check if the heuristic check_vocab_intersection is in the data frame and returns the percent of rows that have
+        this heuristic present as well as the how it correlates with the labels
+        :param data: Train or Validation dataset
+        :param length: Length of the dataset provided
+        :return:
+         {'coverage':
+         {
+         'threshold_0.1': '23.81%', 'threshold_0.25': '4.01%', 'threshold_0.33': '2.48%', 'threshold_0.5': '0.38%',
+         'threshold_0.66': '0.08%', 'threshold_0.75': '0.00%', 'threshold_0.9': '0.00%'
+         },
+         'correlation':
+         {
+         'threshold_0.1':
+         {'entailment': {True: '25.17%', False: '74.83%'}, 'not_entailment': {True: '22.35%', False: '77.65%'}},
+         'threshold_0.25':
+         {'entailment': {False: '96.17%', True: '3.83%'}, 'not_entailment': {False: '95.78%', True: '4.22%'}},
+         'threshold_0.33':
+         {'entailment': {False: '97.87%', True: '2.13%'}, 'not_entailment': {False: '97.14%', True: '2.86%'}},
+         'threshold_0.5':
+         {'entailment': {False: '99.71%', True: '0.29%'}, 'not_entailment': {False: '99.52%', True: '0.48%'}},
+         'threshold_0.66':
+         {'entailment': {False: '99.93%', True: '0.07%'}, 'not_entailment': {False: '99.92%', True: '0.08%'}},
+         'threshold_0.75':
+         {'entailment': {False: '100.00%'}, 'not_entailment': {False: '100.00%'}},
+         'threshold_0.9':
+        {'entailment': {False: '100.00%'}, 'not_entailment': {False: '100.00%'}}
+        }
+        }
+        """
         result = {"coverage": {}, "correlation": {}}
         thresholds_columns = ["0.1", "0.25", "0.33", "0.5", "0.66", "0.75", "0.9"]
         vocab_intersection = pd.DataFrame(
