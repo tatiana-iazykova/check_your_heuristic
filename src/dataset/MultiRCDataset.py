@@ -38,7 +38,8 @@ class MultiRCDataset(BaseDataset):
 
         return df
 
-    def yield_lines(self, path: Path) -> Iterator:
+    @staticmethod
+    def yield_lines(path: Path) -> Iterator:
         """ yields json lines one by one """
         with open(path, encoding="utf-8") as f:
             for line in f:
@@ -48,5 +49,4 @@ class MultiRCDataset(BaseDataset):
         """ transforms a complex json object into a single row dataframe"""
         text = line['passage']['text']
         questions = line['passage']['questions']
-
         return text, questions
