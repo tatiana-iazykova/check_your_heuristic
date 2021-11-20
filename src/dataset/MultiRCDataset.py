@@ -3,6 +3,7 @@ from pathlib import Path
 from src.dataset.BaseDataset import BaseDataset
 from typing import Iterator, Tuple, Any
 import json
+import logging
 
 
 class MultiRCDataset(BaseDataset):
@@ -15,6 +16,7 @@ class MultiRCDataset(BaseDataset):
     """
 
     def __init__(self, path: str, path_valid: str = None, path_test: str = None):
+        logging.warning("As of now this class can only work with json data format.")
         super(MultiRCDataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
 
     def read_data(self, path: Path) -> pd.DataFrame:
