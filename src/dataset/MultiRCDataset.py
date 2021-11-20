@@ -1,7 +1,6 @@
 import pandas as pd
 from pathlib import Path
 from src.dataset.BaseDataset import BaseDataset
-import os
 import json
 
 
@@ -10,13 +9,15 @@ class MultiRCDataset(BaseDataset):
     MultiRC is Multi-Sentence Reading Comprehension dataset in SuperGLUE benchmark.
     The corresponding name for this type of datasets in Russian SuperGLUE is MuSeRC or
     Russian Multi-Sentence Reading Comprehension.
+
+    NB! As of now this class can only work with json data format
     """
 
     def __init__(self, path: str, path_valid: str = None, path_test: str = None):
         super(MultiRCDataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
 
     def read_data(self, path: Path):
-        """ get jsonl file content as a pandas DataFrame"""
+        """ get json file content as a pandas DataFrame"""
 
         df = pd.DataFrame(columns=['question', 'text', 'label', 'passage'])
 
