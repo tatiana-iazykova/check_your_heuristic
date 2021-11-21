@@ -2,10 +2,9 @@ import pandas as pd
 from pathlib import Path
 from src.dataset.MultiRCDataset import MultiRCDataset
 from typing import Any, Tuple
-import logging
 
 
-class ReCorDDataset(MultiRCDataset):
+class ReCoRDDataset(MultiRCDataset):
     """
     ReCorD is Reading Comprehension with Commonsense Reasoning dataset in SuperGLUE benchmark.
     The corresponding name for this type of datasets in Russian SuperGLUE is RuCoS or
@@ -15,8 +14,7 @@ class ReCorDDataset(MultiRCDataset):
     """
 
     def __init__(self, path: str, path_valid: str = None, path_test: str = None):
-        logging.warning("As of now this class can only work with json data format.")
-        super(ReCorDDataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
+        super(ReCoRDDataset, self).__init__(path=path, path_valid=path_valid, path_test=path_test)
 
     def split_texts_and_questions(self, line) -> Tuple[str, Any, Any]:
         """ transforms a complex json object into a single row dataframe"""
