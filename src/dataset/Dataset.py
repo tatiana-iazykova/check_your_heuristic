@@ -5,7 +5,9 @@ import os
 
 
 class Dataset(BaseDataset):
-
+    """
+    Dataset class for datasets that have simple structure
+    """
     def __init__(self, path: str, path_valid: str = None, path_test: str = None):
 
         self.valid_data_types = {
