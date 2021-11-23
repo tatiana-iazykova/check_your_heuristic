@@ -193,7 +193,7 @@ class BasicHeuristics(BaseHeuristicSolver):
     def check_heuristics(self) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
         """
         Checks how the heuristics are present in the data sets and prints the results
-        :return: None
+        :return: json-like objects with all the heuristics
         """
         result = dict()
         result["check_substring_train"] = self.check_substring(data=self.train, length=len(self.train))
