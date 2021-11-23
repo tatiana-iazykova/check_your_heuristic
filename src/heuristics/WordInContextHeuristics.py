@@ -44,7 +44,7 @@ class WordInContextHeuristics(BasicHeuristics):
             axis=1
         )
         result["coverage"] = f'{same_form_heuristic.sum() / length * 100:.2f}%'
-        result[f"correlation"] = self._get_correlation(
+        result["correlation"] = self._get_correlation(
             heuristic_result=same_form_heuristic,
             data=data
         )
