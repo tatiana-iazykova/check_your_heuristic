@@ -1,6 +1,6 @@
-from src.Heuristic import BaseHeuristicSolver
+from src.heuristics.BasicHeuristics import BasicHeuristics
 from src.utils import load_config
-from src.Dataset import Dataset
+from src.dataset.Dataset import Dataset
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -8,9 +8,10 @@ warnings.filterwarnings("ignore")
 def main():
     config = load_config("config.yaml")
     dataset = Dataset(path=config['train_dataset_dir'], path_valid=config['valid_dataset_dir'])
-    MyHeuristicCheck = BaseHeuristicSolver(dataset=dataset, config=config)
-    MyHeuristicCheck.check_heuristics()
-    MyHeuristicCheck.all_methods()
+    solver = BasicHeuristics(dataset=dataset, config=config)
+    solver.get_visuals()
+    solver.check_heuristics()
+    solver.all_methods()
 
 
 if __name__ == "__main__":

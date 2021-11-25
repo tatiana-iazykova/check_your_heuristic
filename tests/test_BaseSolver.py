@@ -3,7 +3,7 @@ import unittest
 from parameterized import parameterized
 
 from src.Base import BaseSolver
-from src.Dataset import Dataset
+from src.dataset.Dataset import Dataset
 from src.utils import load_config
 
 
