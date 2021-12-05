@@ -14,6 +14,7 @@ def main():
     )
     dataset = MultiRCDataset(path=config['train_dataset_dir'], path_valid=config['valid_dataset_dir'])
     solver = BasicHeuristics(dataset=dataset, config=config)
+    solver.check_heuristics()
     solver.get_visuals()
     solver.all_methods()
 
