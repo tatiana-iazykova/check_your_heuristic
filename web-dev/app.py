@@ -82,36 +82,5 @@ def handle_form():
 
     return  'title: %s<br> config: %s' % (dataset_type, config)
 
-# def get_config(dataset_type):
-#     
-#     f = open(logger_path, "wb") 
-#     f.close()
-
-#     if dataset_type in ["Base", "MultiRC"]:
-#         return dict(
-#             dataset_type=dataset_type,
-#             train_dataset_dir=file_path,
-#             column_name1="",
-#             column_name2="",
-#             target_name=""
-#                 )
-#     elif dataset_type == "WordInContext":
-#         return dict(
-#             dataset_type=dataset_type,
-#             train_dataset_dir=file_path,
-#             column_name1="",
-#             column_name2="",
-#             start1="",
-#             start2="",
-#             end1="",
-#             end2="",
-#             target_name=""
-#         )   
-
-# def simple_heuristic(config):
-#     dataset = Dataset(path=config['train_dataset_dir'])
-#     solver = BasicHeuristics(dataset=dataset, config=config)
-#     return str(solver.check_heuristics())
-
 if __name__ == '__main__':
     app.run(debug=True)
