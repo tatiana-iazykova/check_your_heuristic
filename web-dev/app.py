@@ -12,7 +12,6 @@ sys.path.append("..")
 from flask import Flask, render_template, request
 from flask_dropzone import Dropzone
 from src.heuristics.BasicHeuristics import BasicHeuristics
-from src.utils import load_config
 from src.dataset.Dataset import Dataset
 
 basedir = os.path.abspath(os.path.dirname(__file__))
