@@ -9,7 +9,7 @@ import sys
 
 sys.path.append("..")
 
-from flask import Flask, render_template, request
+from flask import Flask, config, render_template, request
 from flask_dropzone import Dropzone
 from src.heuristics.BasicHeuristics import BasicHeuristics
 from src.dataset.Dataset import Dataset
@@ -55,40 +55,63 @@ def handle_upload():
 
 @app.route('/form', methods=['POST', 'GET'])
 def handle_form():
-    dataset_type = request.form.get('contact')
-    return render_template("heuristics.html.j2", data=get_config(dataset_type=dataset_type))
-
-def get_config(dataset_type):
     logger_path = os.path.join(app.config['UPLOADED_PATH'], "logger.txt")
     file_path = open(logger_path).readlines()[-1].strip()
-    f = open(logger_path, "wb") 
-    f.close()
+    dataset_type = request.form.get('contact')
 
     if dataset_type in ["Base", "MultiRC"]:
-        return dict(
+        config = dict(
             dataset_type=dataset_type,
             train_dataset_dir=file_path,
-            column_name1="",
-            column_name2="",
-            target_name=""
+            column_name1=request.form.get('column_1'),
+            column_name2=request.form.get('column_2'),
+            target_name=request.form.get('target_name')
                 )
-    elif dataset_type == "WordInContext":
-        return dict(
+    else:
+        config = dict(
             dataset_type=dataset_type,
             train_dataset_dir=file_path,
-            column_name1="",
-            column_name2="",
-            start1="",
-            start2="",
-            end1="",
-            end2="",
-            target_name=""
+            column_name1=request.form.get('column_1'),
+            column_name2=request.form.get('column_name2'),
+            start1=request.form.get('start1'),
+            start2=request.form.get('start2'),
+            end1=request.form.get('end1'),
+            end2=request.form.get('end2'),
+            target_name=request.form.get('target_name')
         )   
 
-def simple_heuristic(config):
-    dataset = Dataset(path=config['train_dataset_dir'])
-    solver = BasicHeuristics(dataset=dataset, config=config)
-    return str(solver.check_heuristics())
+    return  'title: %s<br> config: %s' % (dataset_type, config)
+
+# def get_config(dataset_type):
+#     
+#     f = open(logger_path, "wb") 
+#     f.close()
+
+#     if dataset_type in ["Base", "MultiRC"]:
+#         return dict(
+#             dataset_type=dataset_type,
+#             train_dataset_dir=file_path,
+#             column_name1="",
+#             column_name2="",
+#             target_name=""
+#                 )
+#     elif dataset_type == "WordInContext":
+#         return dict(
+#             dataset_type=dataset_type,
+#             train_dataset_dir=file_path,
+#             column_name1="",
+#             column_name2="",
+#             start1="",
+#             start2="",
+#             end1="",
+#             end2="",
+#             target_name=""
+#         )   
+
+# def simple_heuristic(config):
+#     dataset = Dataset(path=config['train_dataset_dir'])
+#     solver = BasicHeuristics(dataset=dataset, config=config)
+#     return str(solver.check_heuristics())
 
 if __name__ == '__main__':
     app.run(debug=True)
