@@ -1,6 +1,6 @@
-from src.heuristics.BasicHeuristics import BasicHeuristics
-from src.utils import load_config
-from src.dataset.Dataset import Dataset
+from core.src.heuristics.BasicHeuristics import BasicHeuristics
+from core.src.utils import load_config
+from core.src.dataset.Dataset import Dataset
 import warnings
 warnings.filterwarnings("ignore")
 

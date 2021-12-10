@@ -5,7 +5,7 @@ from sklearn.metrics import classification_report
 import pandas as pd
 from nptyping import NDArray
 from typing import Dict, Any, List, Union
-from src.dataset.Dataset import Dataset
+from core.src.dataset.Dataset import Dataset
 
 
 def seed_everything(seed: int):

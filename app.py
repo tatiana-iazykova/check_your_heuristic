@@ -1,18 +1,11 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li <withlihui@gmail.com>
-    :copyright: (c) 2017 by Grey Li.
-    :license: MIT, see LICENSE for more details.
-"""
 import os
-import sys
-
-sys.path.append("..")
-
-from flask import Flask, config, render_template, request
+from flask import Flask, render_template, request
 from flask_dropzone import Dropzone
-from src.heuristics.BasicHeuristics import BasicHeuristics
-from src.dataset.Dataset import Dataset
+from core.src.dataset.Dataset import Dataset
+from core.src.dataset.MultiRCDataset import MultiRCDataset
+from core.src.heuristics.BasicHeuristics import BasicHeuristics
+from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
+from pathlib import Path
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -42,13 +35,14 @@ def index():
 
 @app.route('/upload', methods=['POST', 'GET'])
 def handle_upload():
+    mod_path = Path(__file__).parent
     with open(os.path.join(app.config['UPLOADED_PATH'], "logger.txt"), "w", encoding="utf-8") as logger:
         for key, f in request.files.items():
             _, file_extension = os.path.splitext(f.filename)
             if key.startswith('file'):
                 save_dir = os.path.join(app.config['UPLOADED_PATH'], f.filename)
                 f.save(save_dir)
-                logger.write(f"{save_dir}\n")
+                logger.write(f"{Path(repr(save_dir)[1:-1]).relative_to(mod_path)}\n")
 
     return '', 204
 
@@ -62,7 +56,7 @@ def handle_form():
     if dataset_type in ["Base", "MultiRC"]:
         config = dict(
             dataset_type=dataset_type,
-            train_dataset_dir=file_path,
+            train_dataset_dir=Path(file_path).as_posix(),
             column_name1=request.form.get('column_1'),
             column_name2=request.form.get('column_2'),
             target_name=request.form.get('target_name')
@@ -70,7 +64,7 @@ def handle_form():
     else:
         config = dict(
             dataset_type=dataset_type,
-            train_dataset_dir=file_path,
+            train_dataset_dir=Path(file_path).as_posix(),
             column_name1=request.form.get('column_1'),
             column_name2=request.form.get('column_name2'),
             start1=request.form.get('start1'),
@@ -78,9 +72,30 @@ def handle_form():
             end1=request.form.get('end1'),
             end2=request.form.get('end2'),
             target_name=request.form.get('target_name')
-        )   
+        )
 
-    return  'title: %s<br> config: %s' % (dataset_type, config)
+    return render_template(
+        'heuristics.html.j2',
+        heuristic_results=heuristic_library(
+            dataset_type=dataset_type,
+            config=config
+        )
+    )
+
+
+def heuristic_library(dataset_type, config):
+    if dataset_type == "Base":
+        dataset = Dataset(path=config['train_dataset_dir'])
+        solver = BasicHeuristics(dataset=dataset, config=config)
+        return solver.check_heuristics()
+    elif dataset_type == "MultiRC":
+        dataset = MultiRCDataset(path=config['train_dataset_dir'])
+        solver = BasicHeuristics(dataset=dataset, config=config)
+        return solver.check_heuristics()
+    else:
+        dataset = Dataset(path=config['train_dataset_dir'])
+        solver = WordInContextHeuristics(dataset=dataset, config=config)
+        return solver.check_heuristics()
 
 if __name__ == '__main__':
     app.run(debug=True)

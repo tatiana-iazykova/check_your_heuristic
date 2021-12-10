@@ -3,7 +3,7 @@
 Python >= 3.7 is required
 ```pip install -r requirements.txt```
 
-To check your dataset fill the [config](config.yaml), using **unix-like** paths.
+To check your dataset fill the [config](core/config.yaml), using **unix-like** paths.
 
 Example config:
 ```yaml

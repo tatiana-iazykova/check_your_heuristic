@@ -1,8 +1,10 @@
 venv/
 .idea/
-src/__pycache__/
+core/src/__pycache__/
 .vscode/
-tests/__pycache__
-output/*.png
-src/dataset/__pycache__/
-src/heuristics/__pycache__/
+core/tests/__pycache__
+core/output/*.png
+core/src/dataset/__pycache__/
+core/src/heuristics/__pycache__/
+uploads/
+core/__pycache__/

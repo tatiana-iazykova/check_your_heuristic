@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from src.dataset.BaseDataset import BaseDataset
+from core.src.dataset.BaseDataset import BaseDataset
 from typing import Iterator, Tuple, Any
 import json
 import logging

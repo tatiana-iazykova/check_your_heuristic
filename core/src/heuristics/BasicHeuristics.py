@@ -1,8 +1,8 @@
-from src.dataset.Dataset import Dataset
-from src.heuristics.Heuristic import BaseHeuristicSolver
+from core.src.dataset.Dataset import Dataset
+from core.src.heuristics.Heuristic import BaseHeuristicSolver
 from typing import Dict, Any, Union, Tuple
 import pandas as pd
-from src.utils import get_target_list
+from core.src.utils import get_target_list
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -237,7 +237,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         plt.xlabel("Labels")
         plt.ylabel("Number of words")
         plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
-        plt.savefig(f"output/lengths_{output_name}.png")
+        plt.savefig(f"core/output/lengths_{output_name}.png")
         plt.close()
 
     def get_visuals(self):
@@ -245,7 +245,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         _ = plt.title('Label distribution in train data', fontsize=14)
         _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                     labels=self.train[self.target_name].value_counts().keys(), pctdistance=0.5, textprops=dict(fontsize=12))
-        plt.savefig("output/Label_distribution_in_train_data.png")
+        plt.savefig("core/output/Label_distribution_in_train_data.png")
         plt.close()
         self.check_number_of_words(data=self.train)
 
@@ -254,7 +254,7 @@ class BasicHeuristics(BaseHeuristicSolver):
             _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=12))
-            plt.savefig("output/Label_distribution_in_validation_data.png")
+            plt.savefig("core/output/Label_distribution_in_validation_data.png")
             plt.close()
             self.check_number_of_words(data=self.valid)
 
