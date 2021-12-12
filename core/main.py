@@ -13,6 +13,5 @@ def main():
     solver.check_heuristics()
     solver.all_methods()
 
-
 if __name__ == "__main__":
     main()

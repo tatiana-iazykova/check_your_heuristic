@@ -6,6 +6,7 @@ from core.src.dataset.MultiRCDataset import MultiRCDataset
 from core.src.heuristics.BasicHeuristics import BasicHeuristics
 from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
 from pathlib import Path
+import pandas as pd
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -87,15 +88,23 @@ def heuristic_library(dataset_type, config):
     if dataset_type == "Base":
         dataset = Dataset(path=config['train_dataset_dir'])
         solver = BasicHeuristics(dataset=dataset, config=config)
-        return solver.check_heuristics()
+        df = solver.check_heuristics(render_pandas=True)
+        df['heuristic'] = df['heuristic'].str.replace("_train", '')
+        return df.to_html()
+
     elif dataset_type == "MultiRC":
         dataset = MultiRCDataset(path=config['train_dataset_dir'])
         solver = BasicHeuristics(dataset=dataset, config=config)
-        return solver.check_heuristics()
+        df = solver.check_heuristics(render_pandas=True)
+        df['heuristic'] = df['heuristic'].str.replace("_train", '')
+        return df.to_html()
     else:
         dataset = Dataset(path=config['train_dataset_dir'])
         solver = WordInContextHeuristics(dataset=dataset, config=config)
-        return solver.check_heuristics()
+        df = solver.check_heuristics(render_pandas=True)
+        df['heuristic'] = df['heuristic'].str.replace("_train", '')
+        return df.to_html()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

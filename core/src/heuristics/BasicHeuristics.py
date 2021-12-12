@@ -6,15 +6,17 @@ from core.src.utils import get_target_list
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns
+from pathlib import Path
 
 
 class BasicHeuristics(BaseHeuristicSolver):
 
-    def __init__(self, config: Dict[str, Any], dataset: Dataset):
+    def __init__(self, config: Dict[str, Any], dataset: Dataset, output_dir: str = None):
         super(BaseHeuristicSolver, self).__init__(dataset=dataset, config=config)
         self.column_1 = config["column_name1"]
         self.column_2 = config["column_name2"]
         self.target_list = get_target_list(self.train[self.target_name])
+        self.output_dir = output_dir if output_dir is not None else Path(__file__).parent.parent.parent / "output"
 
     @staticmethod
     def check_substring_function(text1: str, text2: str) -> Tuple[bool, bool]:
@@ -190,7 +192,7 @@ class BasicHeuristics(BaseHeuristicSolver):
             )
         return result
 
-    def check_heuristics(self) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
+    def check_heuristics(self, render_pandas=False) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
         """
         Checks how the heuristics are present in the data sets and prints the results
         :return: json-like objects with all the heuristics
@@ -202,8 +204,8 @@ class BasicHeuristics(BaseHeuristicSolver):
             result["check_substring_valid"] = self.check_substring(data=self.valid, length=len(self.valid))
             result["vocab_intersection_valid"] = self.heuristic_vocab_intersection(data=self.valid,
                                                                                    length=len(self.valid))
-        for key, value in result.items():
-            print(key, '\n', value, '\n')
+        if render_pandas:
+            result = self._render_pandas_results(res_dict=result)
 
         return result
 
@@ -225,6 +227,28 @@ class BasicHeuristics(BaseHeuristicSolver):
             correlation[target] = counts
         return correlation
 
+    def _render_pandas_results(
+            self,
+            res_dict: Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]
+    ) -> pd.DataFrame:
+        columns = ['heuristic', "additional_info", 'coverage']
+        for target in self.target_list:
+            columns.append(f'correlation_{target}')
+
+        df = pd.DataFrame(columns=columns)
+
+        for k in res_dict.keys():
+            for key in res_dict[k]['coverage'].keys():
+                res = {"heuristic": k, "additional_info": key, "coverage": res_dict[k]['coverage'][key]}
+                for label in self.target_list:
+                    r = res_dict[k]["correlation"][key][label]
+                    if True in r:
+                        res[f"correlation_{label}"] = res_dict[k]["correlation"][key][label][True]
+                    else:
+                        res[f"correlation_{label}"] = "0.00%"
+                df = df.append(res, ignore_index=True)
+        return df
+
     def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
         """
 
@@ -237,7 +261,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         plt.xlabel("Labels")
         plt.ylabel("Number of words")
         plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
-        plt.savefig(f"core/output/lengths_{output_name}.png")
+        plt.savefig(f"{self.output_dir}/lengths_{output_name}.png")
         plt.close()
 
     def get_visuals(self):
@@ -245,7 +269,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         _ = plt.title('Label distribution in train data', fontsize=14)
         _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                     labels=self.train[self.target_name].value_counts().keys(), pctdistance=0.5, textprops=dict(fontsize=12))
-        plt.savefig("core/output/Label_distribution_in_train_data.png")
+        plt.savefig(f"{self.output_dir}/Label_distribution_in_train_data.png")
         plt.close()
         self.check_number_of_words(data=self.train)
 
@@ -254,7 +278,7 @@ class BasicHeuristics(BaseHeuristicSolver):
             _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=12))
-            plt.savefig("core/output/Label_distribution_in_validation_data.png")
+            plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data.png")
             plt.close()
             self.check_number_of_words(data=self.valid)
 
