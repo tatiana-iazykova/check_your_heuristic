@@ -190,7 +190,7 @@ class BasicHeuristics(BaseHeuristicSolver):
             )
         return result
 
-    def check_heuristics(self) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
+    def check_heuristics(self, render_pandas=False) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
         """
         Checks how the heuristics are present in the data sets and prints the results
         :return: json-like objects with all the heuristics
@@ -202,8 +202,8 @@ class BasicHeuristics(BaseHeuristicSolver):
             result["check_substring_valid"] = self.check_substring(data=self.valid, length=len(self.valid))
             result["vocab_intersection_valid"] = self.heuristic_vocab_intersection(data=self.valid,
                                                                                    length=len(self.valid))
-        for key, value in result.items():
-            print(key, '\n', value, '\n')
+        if render_pandas:
+            result = self._render_pandas_results(res_dict=result)
 
         return result
 
@@ -224,6 +224,28 @@ class BasicHeuristics(BaseHeuristicSolver):
             counts = {k: f"{v / len(samples) * 100:.2f}%" for k, v in counts.items()}
             correlation[target] = counts
         return correlation
+
+    def _render_pandas_results(
+            self,
+            res_dict: Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]
+    ) -> pd.DataFrame:
+        columns = ['heuristic', "additional_info", 'coverage']
+        for target in self.target_list:
+            columns.append(f'correlation_{target}')
+
+        df = pd.DataFrame(columns=columns)
+
+        for k in res_dict.keys():
+            for key in res_dict[k]['coverage'].keys():
+                res = {"heuristic": k, "additional_info": key, "coverage": res_dict[k]['coverage'][key]}
+                for label in self.target_list:
+                    r = res_dict[k]["correlation"][key][label]
+                    if True in r:
+                        res[f"correlation_{label}"] = res_dict[k]["correlation"][key][label][True]
+                    else:
+                        res[f"correlation_{label}"] = "0.00%"
+                df = df.append(res, ignore_index=True)
+        return df
 
     def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
         """

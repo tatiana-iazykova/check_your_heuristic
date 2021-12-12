@@ -6,3 +6,5 @@ tests/__pycache__
 output/*.png
 src/dataset/__pycache__/
 src/heuristics/__pycache__/
+.ipynb_checkpoints/
+*.ipynb

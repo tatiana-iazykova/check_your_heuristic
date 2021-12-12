@@ -51,7 +51,7 @@ class WordInContextHeuristics(BasicHeuristics):
 
         return result
 
-    def check_heuristics(self) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
+    def check_heuristics(self, render_pandas=False) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
         """
         Checks how the heuristics are present in the data sets and prints the results
         :return: json-like objects with all the heuristics
@@ -66,7 +66,7 @@ class WordInContextHeuristics(BasicHeuristics):
             result["vocab_intersection_valid"] = self.heuristic_vocab_intersection(data=self.valid,
                                                                                    length=len(self.valid))
             result["same_form_heuristic"] = self.heuristic_same_form(data=self.train, length=len(self.train))
-        for key, value in result.items():
-            print(key, '\n', value, '\n')
+        if render_pandas:
+            result = self._render_pandas_results(res_dict=result)
 
         return result
