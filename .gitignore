@@ -11,3 +11,4 @@ core/__pycache__/
 .ipynb_checkpoints/
 *.ipynb
 resources/
+src/
