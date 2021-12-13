@@ -3,10 +3,11 @@ venv/
 core/src/__pycache__/
 .vscode/
 core/tests/__pycache__
-core/output/*.png
+static/output/*.png
 core/src/dataset/__pycache__/
 core/src/heuristics/__pycache__/
-uploads/
+uploads/*
 core/__pycache__/
 .ipynb_checkpoints/
 *.ipynb
+resources/

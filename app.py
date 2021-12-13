@@ -7,6 +7,8 @@ from core.src.heuristics.BasicHeuristics import BasicHeuristics
 from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
 from pathlib import Path
 import pandas as pd
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -56,7 +58,6 @@ def handle_form():
 
     if dataset_type in ["Base", "MultiRC"]:
         config = dict(
-            dataset_type=dataset_type,
             train_dataset_dir=Path(file_path).as_posix(),
             column_name1=request.form.get('column_1'),
             column_name2=request.form.get('column_2'),
@@ -64,7 +65,6 @@ def handle_form():
                 )
     else:
         config = dict(
-            dataset_type=dataset_type,
             train_dataset_dir=Path(file_path).as_posix(),
             column_name1=request.form.get('column_1'),
             column_name2=request.form.get('column_name2'),
@@ -74,36 +74,48 @@ def handle_form():
             end2=request.form.get('end2'),
             target_name=request.form.get('target_name')
         )
-
+    solver = heuristic_library(dataset_type=dataset_type, config=config)
+    path_to_visuals = Path(__file__).parent / "static/uploads"
     return render_template(
         'heuristics.html.j2',
-        heuristic_results=heuristic_library(
-            dataset_type=dataset_type,
-            config=config
-        )
+        heuristic_results=get_df(
+            solver=solver
+        ),
+        visuals=get_images(path_to_visuals)
     )
 
+
+def get_images(path: str):
+    res = []
+    for file in os.listdir(path):
+        path_to_doc = Path(file)
+        if path_to_doc.suffix == ".png":
+            res.append(path_to_doc.as_posix())
+    print(res)
+    return res
+
+def get_df(solver):
+    df = solver.check_heuristics(render_pandas=True)
+    df['heuristic'] = df['heuristic'].str.replace("_train", '')
+    return df.to_html()
 
 def heuristic_library(dataset_type, config):
     if dataset_type == "Base":
         dataset = Dataset(path=config['train_dataset_dir'])
         solver = BasicHeuristics(dataset=dataset, config=config)
-        df = solver.check_heuristics(render_pandas=True)
-        df['heuristic'] = df['heuristic'].str.replace("_train", '')
-        return df.to_html()
+        solver.get_visuals()
+        return solver
 
     elif dataset_type == "MultiRC":
         dataset = MultiRCDataset(path=config['train_dataset_dir'])
         solver = BasicHeuristics(dataset=dataset, config=config)
-        df = solver.check_heuristics(render_pandas=True)
-        df['heuristic'] = df['heuristic'].str.replace("_train", '')
-        return df.to_html()
+        solver.get_visuals()
+        return solver
     else:
         dataset = Dataset(path=config['train_dataset_dir'])
         solver = WordInContextHeuristics(dataset=dataset, config=config)
-        df = solver.check_heuristics(render_pandas=True)
-        df['heuristic'] = df['heuristic'].str.replace("_train", '')
-        return df.to_html()
+        solver.get_visuals()
+        return solver
 
 
 if __name__ == '__main__':

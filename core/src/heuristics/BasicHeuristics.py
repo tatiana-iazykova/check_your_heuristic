@@ -16,7 +16,8 @@ class BasicHeuristics(BaseHeuristicSolver):
         self.column_1 = config["column_name1"]
         self.column_2 = config["column_name2"]
         self.target_list = get_target_list(self.train[self.target_name])
-        self.output_dir = output_dir if output_dir is not None else Path(__file__).parent.parent.parent / "output"
+        self.output_dir = output_dir if output_dir is not None \
+            else Path(__file__).parent.parent.parent.parent / "static/uploads"
 
     @staticmethod
     def check_substring_function(text1: str, text2: str) -> Tuple[bool, bool]:
@@ -40,7 +41,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         Function that computes mean and median length of strings in regards to labels
         :param data: data set provided for checking
 
-        Example output
+        Example uploads
         :return: {
         'mean':
         {'lengths_column1_entailment': 6, 'lengths_column2_entailment': 34,

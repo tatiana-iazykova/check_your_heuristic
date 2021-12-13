@@ -8,5 +8,9 @@
 
 <body>
 {{ heuristic_results }}
+
+{%for url in visuals%}
+    <image src={{ url_for('static', filename='uploads/' + url) }}>
+{% endfor %}
 </body>
 </html>
