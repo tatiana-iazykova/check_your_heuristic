@@ -12,3 +12,4 @@ core/__pycache__/
 *.ipynb
 resources/
 src/
+static/uploads/*
