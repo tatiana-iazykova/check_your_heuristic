@@ -7,7 +7,6 @@ from core.src.heuristics.BasicHeuristics import BasicHeuristics
 from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
 from pathlib import Path
 import pandas as pd
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -19,8 +18,8 @@ app.config.update(
     UPLOADED_PATH=os.path.join(basedir, 'uploads'),
     # Flask-Dropzone config:
     DROPZONE_MAX_FILE_SIZE=3,
-    DROPZONE_ALLOWED_FILE_CUSTOM = True,
-    DROPZONE_ALLOWED_FILE_TYPE = '.csv, .xls, .xlsx, .json, .jsonl',
+    DROPZONE_ALLOWED_FILE_CUSTOM=True,
+    DROPZONE_ALLOWED_FILE_TYPE='.csv, .xls, .xlsx, .json, .jsonl',
     DROPZONE_MAX_FILES=1,
     DROPZONE_IN_FORM=True,
     DROPZONE_UPLOAD_ON_CLICK=True,
@@ -96,7 +95,6 @@ def get_images(path: str):
         path_to_doc = Path(file)
         if path_to_doc.suffix == ".png":
             res.append(path_to_doc.as_posix())
-    print(res)
     return res
 
 
