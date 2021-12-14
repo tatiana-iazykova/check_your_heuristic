@@ -7,10 +7,21 @@
     </head>
 
 <body>
+<p>
 {{ heuristic_results }}
+</p>
 
+<p>
 {%for url in visuals%}
     <image src={{ url_for('static', filename='uploads/' + url) }}>
+{% endfor %}
+</p>
+
+{% for key, value in cl_reports.items()%}
+    <p>
+    {{ key }}
+    {{ value }}
+    </p>
 {% endfor %}
 </body>
 </html>

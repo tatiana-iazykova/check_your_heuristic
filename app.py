@@ -81,7 +81,12 @@ def handle_form():
         heuristic_results=get_df(
             solver=solver
         ),
-        visuals=get_images(path_to_visuals)
+        visuals=get_images(
+            path=path_to_visuals.as_posix()
+        ),
+        cl_reports=get_classification_reports(
+            solver=solver
+        )
     )
 
 
@@ -94,10 +99,17 @@ def get_images(path: str):
     print(res)
     return res
 
+
 def get_df(solver):
     df = solver.check_heuristics(render_pandas=True)
     df['heuristic'] = df['heuristic'].str.replace("_train", '')
     return df.to_html()
+
+
+def get_classification_reports(solver):
+    cl_reports = solver.all_methods()
+    return cl_reports
+
 
 def heuristic_library(dataset_type, config):
     if dataset_type == "Base":

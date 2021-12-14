@@ -30,6 +30,8 @@ class BaseSolver:
     
     def all_methods(self):
 
+        result = {}
+
         if self.valid is not None:
             test_size = len(self.valid)
             y_true = list(self.valid.label)
@@ -42,20 +44,24 @@ class BaseSolver:
         print()
         print(f"Making Prediction based on Majority Class")
         y_pred = self.majority_class(test_size=test_size)
-        self.show_report(y_true, y_pred)
+        result['majority'] = self.show_report(y_true, y_pred)
 
         print()
         print(f"Making Prediction based on Random Choice")
         y_pred = self.random_choice(test_size=test_size)
-        self.show_report(y_true, y_pred)
+        result['random'] = self.show_report(y_true, y_pred)
         
         print()
         print(f"Making Prediction based on Random Choice Considered Classes Distribution")
         y_pred = self.random_balanced_choice(test_size=test_size)
-        self.show_report(y_true, y_pred)
+        result['random_balanced'] = self.show_report(y_true, y_pred)
+        return result
 
     def show_report(self, y_true: pd.Series, y_pred: pd.Series):
-        print(classification_report(y_true, y_pred))
+        report = classification_report(y_true, y_pred, output_dict=True)
+        df_classification_report = pd.DataFrame(report).transpose()
+        df_classification_report = df_classification_report.sort_values(by=['f1-score'], ascending=False)
+        return df_classification_report.to_html()
 
     def majority_class(self, test_size: int) -> List[Union[str, int]]:
         """
