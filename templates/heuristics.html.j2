@@ -7,21 +7,27 @@
     </head>
 
 <body>
-<p>
-{{ heuristic_results }}
-</p>
 
-<p>
-{%for url in visuals%}
-    <image src={{ url_for('static', filename='uploads/' + url) }}>
-{% endfor %}
-</p>
-
-{% for key, value in cl_reports.items()%}
-    <p>
-    {{ key }}
-    {{ value }}
+<div class="row">
+  <div class="column left" id="results">
+    {{ heuristic_results }}
+  </div>
+  <div class="column middle" id="images">
+    {%for url in visuals%}
+    <p id="image">
+        <image src={{ url_for('static', filename='uploads/' + url) }}>
     </p>
-{% endfor %}
+    {% endfor %}
+  </div>
+  <div class="column right" id="classification_reports">
+      {% for key, value in cl_reports.items()%}
+        <p>
+        {{ key }}
+        {{ value }}
+        </p>
+    {% endfor %}
+  </div>
+</div>
+
 </body>
 </html>

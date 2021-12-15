@@ -64,8 +64,20 @@ class BasicHeuristics(BaseHeuristicSolver):
             result["median"][f"lengths_column2_{target}"] = \
                 round(data[data[self.target_name] == target]["lengths_column2"].median())
 
-        self._plot_boxplot(data=data, column_name='lengths_column2', output_name=self.column_2)
-        self._plot_boxplot(data=data, column_name='lengths_column1', output_name=self.column_1)
+        plt.figure(figsize=(6, 3))
+        _ = plt.subplot(1, 2, 1)
+        _ = plt.title(f'Relation between label\nand number of words in {self.column_2}', fontsize=10)
+        _ = self._plot_boxplot(data=data, column_name='lengths_column2')
+        _ = plt.xlabel("Labels")
+        _ = plt.ylabel("Number of words")
+        _ = plt.subplot(1, 2, 2)
+        _ = plt.title(f'Relation between label\nand number of words in {self.column_1}', fontsize=10)
+        _ = self._plot_boxplot(data=data, column_name='lengths_column1')
+        _ = plt.xlabel("Labels")
+        _ = plt.ylabel("Number of words")
+        plt.tight_layout()
+        plt.savefig(f"{self.output_dir}/lengths.png", bbox_inches="tight")
+        plt.close()
         print(result)
         return result
 
@@ -250,35 +262,32 @@ class BasicHeuristics(BaseHeuristicSolver):
                 df = df.append(res, ignore_index=True)
         return df
 
-    def _plot_boxplot(self, data: pd.DataFrame, column_name: str, output_name=str) -> None:
+    def _plot_boxplot(self, data: pd.DataFrame, column_name: str) -> sns.boxplot:
         """
 
         :param data: data frame provided for checking
         :param column_name: column to compute box plot
-        :param output_name: file_name to save
-        :return: None
+        :return: sns.boxplot
         """
-        sns.boxplot(x=self.target_name, y=column_name, data=data)
-        plt.xlabel("Labels")
-        plt.ylabel("Number of words")
-        plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
-        plt.savefig(f"{self.output_dir}/lengths_{output_name}.png")
-        plt.close()
+        return sns.boxplot(x=self.target_name, y=column_name, data=data)
 
     def get_visuals(self):
 
-        _ = plt.title('Label distribution in train data', fontsize=14)
-        _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
-                    labels=self.train[self.target_name].value_counts().keys(), pctdistance=0.5, textprops=dict(fontsize=12))
+        plt.figure(figsize=(3, 3))
+        _ = plt.title('Label distribution in train data', fontsize=10)
+        _ = plt.pie(self.train[self.target_name].value_counts(),
+                    autopct="%.1f%%", explode=[0.05] * 2,
+                    labels=self.train[self.target_name].value_counts().keys(),
+                    pctdistance=0.5, textprops=dict(fontsize=8))
         plt.savefig(f"{self.output_dir}/Label_distribution_in_train_data.png")
         plt.close()
         self.check_number_of_words(data=self.train)
 
         if self.valid is not None:
-            _ = plt.title('Label distribution in validation data', fontsize=14)
+            _ = plt.title('Label distribution in validation data', fontsize=10)
             _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
-                        textprops=dict(fontsize=12))
+                        textprops=dict(fontsize=8))
             plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data.png")
             plt.close()
             self.check_number_of_words(data=self.valid)
