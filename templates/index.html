@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type=text/css 
+        href="{{ url_for('static', filename='styles.css') }}">
     <meta charset="UTF-8">
     {{ dropzone.load_css() }}
     {{ dropzone.style('border: 2px dashed #0087F7; margin: 10px 0 10px; min-height: 400px; width: 800px') }}
