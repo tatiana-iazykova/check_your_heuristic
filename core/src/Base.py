@@ -41,18 +41,12 @@ class BaseSolver:
             test_size = len(self.train)
             y_true = self.train[self.target_name]
             
-        print()
-        print(f"Making Prediction based on Majority Class")
         y_pred = self.majority_class(test_size=test_size)
         result['majority'] = self.show_report(y_true, y_pred)
 
-        print()
-        print(f"Making Prediction based on Random Choice")
         y_pred = self.random_choice(test_size=test_size)
         result['random'] = self.show_report(y_true, y_pred)
         
-        print()
-        print(f"Making Prediction based on Random Choice Considered Classes Distribution")
         y_pred = self.random_balanced_choice(test_size=test_size)
         result['random_balanced'] = self.show_report(y_true, y_pred)
         return result
