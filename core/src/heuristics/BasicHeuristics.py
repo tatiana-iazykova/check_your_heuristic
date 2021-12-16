@@ -66,12 +66,12 @@ class BasicHeuristics(BaseHeuristicSolver):
 
         plt.figure(figsize=(6, 3))
         _ = plt.subplot(1, 2, 1)
-        _ = plt.title(f'Relation between label\nand number of words in {self.column_2}', fontsize=10)
+        _ = plt.title(f'Relation between label\nand\nnumber of words in {self.column_2}', fontsize=10)
         _ = self._plot_boxplot(data=data, column_name='lengths_column2')
         _ = plt.xlabel("Labels")
         _ = plt.ylabel("Number of words")
         _ = plt.subplot(1, 2, 2)
-        _ = plt.title(f'Relation between label\nand number of words in {self.column_1}', fontsize=10)
+        _ = plt.title(f'Relation between label\nand\nnumber of words in {self.column_1}', fontsize=10)
         _ = self._plot_boxplot(data=data, column_name='lengths_column1')
         _ = plt.xlabel("Labels")
         _ = plt.ylabel("Number of words")
@@ -244,21 +244,21 @@ class BasicHeuristics(BaseHeuristicSolver):
             self,
             res_dict: Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]
     ) -> pd.DataFrame:
-        columns = ['heuristic', "additional_info", 'coverage']
+        columns = ['heuristic', "additional info", 'coverage']
         for target in self.target_list:
-            columns.append(f'correlation_{target}')
+            columns.append(f'correlation\n{target}')
 
         df = pd.DataFrame(columns=columns)
 
         for k in res_dict.keys():
             for key in res_dict[k]['coverage'].keys():
-                res = {"heuristic": k, "additional_info": key, "coverage": res_dict[k]['coverage'][key]}
+                res = {"heuristic": k, "additional info": key, "coverage": res_dict[k]['coverage'][key]}
                 for label in self.target_list:
                     r = res_dict[k]["correlation"][key][label]
                     if True in r:
-                        res[f"correlation_{label}"] = res_dict[k]["correlation"][key][label][True]
+                        res[f"correlation\n{label}"] = res_dict[k]["correlation"][key][label][True]
                     else:
-                        res[f"correlation_{label}"] = "0.00%"
+                        res[f"correlation\n{label}"] = "0.00%"
                 df = df.append(res, ignore_index=True)
         return df
 

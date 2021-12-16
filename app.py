@@ -101,6 +101,8 @@ def get_images(path: str):
 def get_df(solver):
     df = solver.check_heuristics(render_pandas=True)
     df['heuristic'] = df['heuristic'].str.replace("_train", '')
+    df['heuristic'] = df['heuristic'].str.replace("_", ' ')
+    df['additional info'] = df['additional info'].str.replace("_", ' ')
     return df.to_html()
 
 

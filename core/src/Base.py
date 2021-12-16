@@ -60,7 +60,14 @@ class BaseSolver:
     def show_report(self, y_true: pd.Series, y_pred: pd.Series):
         report = classification_report(y_true, y_pred, output_dict=True)
         df_classification_report = pd.DataFrame(report).transpose()
-        df_classification_report = df_classification_report.sort_values(by=['f1-score'], ascending=False)
+        df_classification_report = df_classification_report.round(decimals=2)
+
+        df_classification_report = df_classification_report.astype(str)
+        df_classification_report.at['accuracy', 'precision'] = ''
+        df_classification_report.at['accuracy', 'recall'] = ''
+        df_classification_report.at['accuracy', 'support'] = df_classification_report.at['macro avg', 'support']
+        df_classification_report['support'] = df_classification_report['support'].str.replace('[.]0', '')
+
         return df_classification_report.to_html()
 
     def majority_class(self, test_size: int) -> List[Union[str, int]]:
