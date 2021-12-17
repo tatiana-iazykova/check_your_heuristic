@@ -1,20 +1,20 @@
 {% extends "base.html.j2" %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("input[type='radio']").change(function() {
-                if ($(this).val() == "MultiRC"  || $(this).val() == "Base" ) {
-                    $("p.config").show();
-                    $("p.ConfigWordInContext").hide();
-                } else {
-                    $("p.config").hide();
-                    $("p.ConfigWordInContext").show();
-                }
+{% block js %}
+<script>
+$(document).ready(function() {
+                $("input[type='radio']").change(function() {
+                    if ($(this).val() == "MultiRC"  || $(this).val() == "Base" ) {
+                        $("p.config").show();
+                        $("p.ConfigWordInContext").hide();
+                    } else {
+                        $("p.config").hide();
+                        $("p.ConfigWordInContext").show();
+                    }
+                });
             });
-        });
-</script>
-
+        </script>
+{% endblock %}
 
 {% block header %}
     <!-- Header - set the background image for the header in the line below-->
@@ -25,6 +25,7 @@
         </div>
     </header>
 {% endblock %}
+
 
 
 {% block content %}
