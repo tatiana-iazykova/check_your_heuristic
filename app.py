@@ -29,12 +29,24 @@ app.config.update(
 
 dropzone = Dropzone(app)
 
-
+"""
+    ROUTES
+"""
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html.j2')
 
+@app.route('/about')
+def guides():
+    return render_template('about.html.j2')
 
+@app.route('/contacts')
+def contacts():
+    return render_template('contacts.html.j2')
+
+"""
+    METHODS
+"""
 @app.route('/upload', methods=['POST', 'GET'])
 def handle_upload():
     mod_path = Path(__file__).parent
@@ -76,7 +88,7 @@ def handle_form():
     solver = heuristic_library(dataset_type=dataset_type, config=config)
     path_to_visuals = Path(__file__).parent / "static/uploads"
     return render_template(
-        'heuristics.html.j2',
+        'output.html.j2',
         heuristic_results=get_df(
             solver=solver
         ),
@@ -131,4 +143,4 @@ def heuristic_library(dataset_type, config):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
