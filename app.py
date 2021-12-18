@@ -42,7 +42,7 @@ def guides():
 
 @app.route('/load_dataset')
 def submit_dataset():
-    return render_template('submition.html.j2')
+    return render_template('submission.html.j2')
 
 @app.route('/contacts')
 def contacts():
