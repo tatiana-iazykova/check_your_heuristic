@@ -1,5 +1,6 @@
 # check_your_heuristic
 
+## Run with Python
 Python >= 3.7 is required
 ```pip install -r requirements.txt```
 
@@ -15,9 +16,17 @@ target_name: "label"
 ```
 
 Then in console run:
- ```python
+ ```shell
 python main.py
 ```
+
+## Run with Docker
+ ```shell
+docker-compose build
+docker-compose up
+```
+
+## Heuristics 
 
 | heuristic                                             | requirements                                   | approximate time |
 | ----------------------------------------------------- | ---------------------------------------------- | ---------------- |
