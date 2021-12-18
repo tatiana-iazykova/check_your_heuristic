@@ -1,0 +1,60 @@
+{% extends "base.html.j2" %}
+
+{% block header %}
+    <!-- Header - set the background image for the header in the line below-->
+    <header class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1600x900')">
+        <div class="text-center my-5">
+            <h1 class="text-white fs-3 fw-bolder">This is Us</h1>
+            <p class="text-white-50 mb-0">Find out about our Research Group at HSE</p>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-5 py-5">
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-2" width="1.75em" height="1.75em"><use xlink:href="#bootstrap"></use></svg>
+        <div>
+          <h4 class="fw-bold mb-0">Alina</h4>
+          <p>Paragraph of text beneath the heading to explain the heading.</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-2" width="1.75em" height="1.75em"><use xlink:href="#cpu-fill"></use></svg>
+        <div>
+          <h4 class="fw-bold mb-0">Denis</h4>
+          <p>Paragraph of text beneath the heading to explain the heading.</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-2" width="1.75em" height="1.75em"><use xlink:href="#calendar3"></use></svg>
+        <div>
+          <h4 class="fw-bold mb-0">Ilya</h4>
+          <p>Paragraph of text beneath the heading to explain the heading.</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-2" width="1.75em" height="1.75em"><use xlink:href="#home"></use></svg>
+        <div>
+          <h4 class="fw-bold mb-0">Olya</h4>
+          <p>Paragraph of text beneath the heading to explain the heading.</p>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#speedometer2"></use></svg>
+        <div>
+          <h4 class="fw-bold mb-0">Tanya</h4>
+          <p>Paragraph of text beneath the heading to explain the heading.</p>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+
+{% block footer %}
+    <!-- Footer-->
+    <footer class="footer mt-auto py-3 bg-dark fixed-bottom">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; HSE Compling 2022</p></div>
+    </footer>
+{% endblock %}

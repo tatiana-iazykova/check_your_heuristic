@@ -1,6 +1,11 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.7
 
 COPY requirements.txt ./
+RUN apk add --update npm
+
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
