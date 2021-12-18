@@ -1,68 +1,12 @@
 {% extends "base.html.j2" %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("input[type='radio']").change(function() {
-                if ($(this).val() == "MultiRC"  || $(this).val() == "Base" ) {
-                    $("p.config").show();
-                    $("p.ConfigWordInContext").hide();
-                } else {
-                    $("p.config").hide();
-                    $("p.ConfigWordInContext").show();
-                }
-            });
-        });
-</script>
-
-
 {% block header %}
     <!-- Header - set the background image for the header in the line below-->
     <header class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1600x900')">
         <div class="text-center my-5">
             <h1 class="text-white fs-3 fw-bolder">Hueristic-proof &#10003;</h1>
             <p class="text-white-50 mb-0">Check if you data is vulnerable to shallow heuristics</p>
+            <p><a class="btn btn-lg btn-primary" href="/load_dataset">Load your data</a></p>
         </div>
     </header>
-{% endblock %}
-
-
-{% block content %}
-    {{ dropzone.load_css() }}
-    {{ dropzone.style('border: 2px dashed #0087F7; margin: 10px 0 10px; min-height: 10px; width: 200px') }}
-
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <h2 class="display-5 fw-bold">Upload Data</h2>
-            <form action="{{ url_for('handle_form') }}" enctype="multipart/form-data" method="post">
-                <p>Please choose your Dataset type:</p>
-                <input type="radio" id="dataset_choice1"
-                name="contact" value="Base">
-               <label for="contactChoice1">Base</label>
-               <input type="radio" id="dataset_choice2" name="contact" value="MultiRC">
-               <label for="dataset_choice2">MultiRC</label>
-               <input type="radio" id="dataset_choice3"
-                name="contact" value="WordInContext">
-               <label for="dataset_choice3">WordInContext</label>
-                <p class="config" name="config">
-                    column_1: <input type="text" name="column_1" id="column_name1" /><br>
-                    column_2: <input type="text" name="column_2" id="column_name2" /><br>
-                    target_name: <input type="text" name="target_name" id="target_name"/>
-                </p>
-                <p class="ConfigWordInContext" name="config">
-                    column_1: <input type="text" name="column_1" id="column_name1" /><br>
-                    column_2: <input type="text" name="column_2" id="column_name2" /><br>
-                    start1: <input type="text" name="start1" id="start1" /><br>
-                    start2: <input type="text" name="start2" id="start2" /><br>
-                    end1: <input type="text" name="end1" id="end1" /><br>
-                    end2: <input type="text" name="end2" id="end2" /><br>
-                    target_name: <input type="text" name="target_name" id="target_name"/>
-                </p>
-                {{ dropzone.create() }}
-                <input type="submit" id="submit" value="Submit and Upload">
-            </form>
-            {{ dropzone.load_js() }}
-            {{ dropzone.config() }}
-        </div>
-    </div>
 {% endblock %}

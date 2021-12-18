@@ -40,6 +40,10 @@ def index():
 def guides():
     return render_template('about.html.j2')
 
+@app.route('/load_dataset')
+def submit_dataset():
+    return render_template('submition.html.j2')
+
 @app.route('/contacts')
 def contacts():
     return render_template('contacts.html.j2')
@@ -57,7 +61,6 @@ def handle_upload():
                 save_dir = os.path.join(app.config['UPLOADED_PATH'], f.filename)
                 f.save(save_dir)
                 logger.write(f"{Path(repr(save_dir)[1:-1]).relative_to(mod_path)}\n")
-
     return '', 204
 
 
@@ -65,27 +68,27 @@ def handle_upload():
 def handle_form():
     logger_path = os.path.join(app.config['UPLOADED_PATH'], "logger.txt")
     file_path = open(logger_path).readlines()[-1].strip()
-    dataset_type = request.form.get('contact')
+    dataset_type = request.form.get('dataset_type')
 
-    if dataset_type in ["Base", "MultiRC"]:
-        config = dict(
-            train_dataset_dir=Path(file_path).as_posix(),
-            column_name1=request.form.get('column_1'),
-            column_name2=request.form.get('column_2'),
-            target_name=request.form.get('target_name')
-                )
-    else:
-        config = dict(
-            train_dataset_dir=Path(file_path).as_posix(),
-            column_name1=request.form.get('column_1'),
-            column_name2=request.form.get('column_name2'),
-            start1=request.form.get('start1'),
-            start2=request.form.get('start2'),
-            end1=request.form.get('end1'),
-            end2=request.form.get('end2'),
-            target_name=request.form.get('target_name')
+    config = dict(
+        train_dataset_dir=Path(file_path).as_posix(),
+        column_name1=request.form.get('column_1'),
+        column_name2=request.form.get('column_2'),
+        target_name=request.form.get('target_name')
         )
-    solver = heuristic_library(dataset_type=dataset_type, config=config)
+
+    if dataset_type=='WordInContext':
+        config['start1'] = request.form.get('start1')
+        config['start2'] = request.form.get('start2')
+        config['end1'] = request.form.get('end1')
+        config['end2'] = request.form.get('end2')
+
+    try:
+        solver = heuristic_library(dataset_type=dataset_type, config=config)
+    except:
+        return render_template('wrong_column.html.j2')
+
+
     path_to_visuals = Path(__file__).parent / "static/uploads"
     return render_template(
         'output.html.j2',
