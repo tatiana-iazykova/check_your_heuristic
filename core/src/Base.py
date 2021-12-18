@@ -42,13 +42,13 @@ class BaseSolver:
             y_true = self.train[self.target_name]
             
         y_pred = self.majority_class(test_size=test_size)
-        result['majority'] = self.show_report(y_true, y_pred)
+        result['majority'] = self.show_report(y_true.to_list(), y_pred)
 
         y_pred = self.random_choice(test_size=test_size)
-        result['random'] = self.show_report(y_true, y_pred)
+        result['random'] = self.show_report(y_true.to_list(), y_pred)
         
         y_pred = self.random_balanced_choice(test_size=test_size)
-        result['random_balanced'] = self.show_report(y_true, y_pred)
+        result['random_balanced'] = self.show_report(y_true.to_list(), y_pred)
         return result
 
     def show_report(self, y_true: pd.Series, y_pred: pd.Series):
