@@ -1,0 +1,52 @@
+{% extends "base.html.j2" %}
+
+{% block header %}
+    <!-- Header - set the background image for the header in the line below-->
+    <header class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1600x900')">
+        <div class="text-center my-5">
+            <h1 class="text-white fs-3 fw-bolder">This is your dataset breakdown</h1>
+            <p class="text-white-50 mb-0">Get statistics</p>
+        </div>
+    </header>
+{% endblock %}
+
+
+{% block content %}
+    <div class="px-4 pt-5 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold">Centered tables</h1>
+        <div class="overflow-hidden">
+          <div class="container px-5 justify-content-sm-center">
+            {{ heuristic_results }}
+          </div>
+        </div>
+     </div>
+
+     <div class="px-4 pt-5 my-5 text-center border-bottom">
+         <h1 class="display-4 fw-bold">Centered tables</h1>
+         </div>
+         <div class="overflow-hidden">
+           <div class="container px-5 justify-content-sm-center">
+               {%for url in visuals%}
+               <p id="image">
+                   <image src={{ url_for('static', filename='uploads/' + url) }}>
+               </p>
+               {% endfor %}
+           </div>
+         </div>
+      </div>
+
+      <div class="px-4 pt-5 my-5 text-center border-bottom">
+          <h1 class="display-4 fw-bold">Centered tables</h1>
+          </div>
+          <div class="overflow-hidden">
+            <div class="container px-5 justify-content-sm-center">
+                {% for key, value in cl_reports.items()%}
+                  <p>
+                  {{ key }}
+                  {{ value }}
+                  </p>
+              {% endfor %}
+            </div>
+          </div>
+       </div>
+{% endblock %}
