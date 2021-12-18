@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config.update(
     UPLOADED_PATH=os.path.join(basedir, 'uploads'),
     # Flask-Dropzone config:
-    DROPZONE_MAX_FILE_SIZE=3,
+    DROPZONE_MAX_FILE_SIZE=10,
     DROPZONE_ALLOWED_FILE_CUSTOM=True,
     DROPZONE_ALLOWED_FILE_TYPE='.csv, .xls, .xlsx, .json, .jsonl',
     DROPZONE_MAX_FILES=1,

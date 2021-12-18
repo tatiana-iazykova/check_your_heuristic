@@ -51,7 +51,7 @@ class Dataset(BaseDataset):
         :param path: "../../some_file.xlsx"
         :return: dataframe
         """
-        return pd.read_excel(io=path, engine="openpyxl")
+        return pd.read_excel(io=path, engine="openpyxl", encoding="utf-8")
 
     @staticmethod
     def _read_json(path: str) -> pd.DataFrame:
