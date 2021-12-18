@@ -77,7 +77,7 @@ def handle_form():
         target_name=request.form.get('target_name')
         )
 
-    if dataset_type=='WordInContext':
+    if dataset_type == 'WordInContext':
         config['start1'] = request.form.get('start1')
         config['start2'] = request.form.get('start2')
         config['end1'] = request.form.get('end1')
