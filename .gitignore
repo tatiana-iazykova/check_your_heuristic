@@ -13,3 +13,6 @@ core/__pycache__/
 resources/
 src/
 static/uploads/*
+/data/
+/configs/
+/output/
