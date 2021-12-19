@@ -10,43 +10,43 @@
     </header>
 {% endblock %}
 
-
 {% block content %}
-    <div class="px-4 pt-5 my-5 text-center border-bottom">
-        <h1 class="display-4 fw-bold">Heuristic checks</h1>
-        <div class="overflow-hidden">
-          <div class="container px-5 justify-content-sm-center">
-            {{ heuristic_results }}
-          </div>
-        </div>
-     </div>
-
-     <div class="px-4 pt-5 my-5 text-center border-bottom">
-         <h1 class="display-4 fw-bold">Basic stats</h1>
-         </div>
-         <div class="overflow-hidden">
-           <div class="container px-5 justify-content-sm-center">
-               {%for url in visuals%}
-               <p id="image">
-                   <image src={{ url_for('static', filename='uploads/' + url) }}>
-               </p>
-               {% endfor %}
-           </div>
-         </div>
-      </div>
-
-      <div class="px-4 pt-5 my-5 text-center border-bottom">
-          <h1 class="display-4 fw-bold">Classification reports</h1>
-          </div>
-          <div class="overflow-hidden">
-            <div class="container px-5 justify-content-sm-center">
-                {% for key, value in cl_reports.items()%}
-                  <p>
-                  {{ key }}
-                  {{ value }}
-                  </p>
-              {% endfor %}
+<div class="container">
+    <div class="row py-5">
+        <div class="col-md-3 container text-center">
+            <h3 class="fw-bold text-center">Heuristic checks</h3>
+            <div class="overflow">
+              <div class="container py-3 justify-content-sm-center">
+                {{ heuristic_results }}
+              </div>
             </div>
-          </div>
-       </div>
+        </div>
+
+        <div class="col-md-7 container text-center">
+            <h3 class="fw-bold">Basic stats</h3>
+            <div class="overflow-hidden">
+              <div>
+                  {%for url in visuals[::-1]%}
+                    <image class='py-3' src={{ url_for('static', filename='uploads/' + url) }}>
+                  {% endfor %}
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-10 container text-center">
+            <h3 class="fw-bold">Classification reports</h3>
+            <div class="overflow-hidden">
+                <div class="row g-3 py-5">
+                    {% for key, value in cl_reports.items()%}
+                    <div class="col-md-4">
+                        {{ key }}
+                        {{ value }}
+                    </div>
+                    {% endfor %}
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
