@@ -85,7 +85,7 @@ def handle_form():
 
     try:
         solver = heuristic_library(dataset_type=dataset_type, config=config)
-    except:
+    except KeyError:
         return render_template('wrong_column.html.j2')
 
 
@@ -127,22 +127,18 @@ def get_classification_reports(solver):
 
 
 def heuristic_library(dataset_type, config):
-    if dataset_type == "Base":
+    if dataset_type == 'WordInContext':
         dataset = Dataset(path=config['train_dataset_dir'])
-        solver = BasicHeuristics(dataset=dataset, config=config)
-        solver.get_visuals()
-        return solver
-
+        solver = WordInContextHeuristics(dataset=dataset, config=config)
     elif dataset_type == "MultiRC":
         dataset = MultiRCDataset(path=config['train_dataset_dir'])
         solver = BasicHeuristics(dataset=dataset, config=config)
-        solver.get_visuals()
-        return solver
-    else:
+    elif dataset_type == 'Base':
         dataset = Dataset(path=config['train_dataset_dir'])
-        solver = WordInContextHeuristics(dataset=dataset, config=config)
-        solver.get_visuals()
-        return solver
+        solver = BasicHeuristics(dataset=dataset, config=config)
+
+    solver.get_visuals()
+    return solver
 
 
 if __name__ == '__main__':
