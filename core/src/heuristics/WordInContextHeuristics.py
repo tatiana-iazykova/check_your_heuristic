@@ -36,15 +36,15 @@ class WordInContextHeuristics(BasicHeuristics):
         }
         """
 
-        result = {}
+        result = {"coverage": {}, "correlation": {}}
         same_form_heuristic = data.apply(
             lambda row:
             row[self.column_1][row[self.start1]:row[self.end1]].lower() ==
             row[self.column_2][row[self.start2]:row[self.end2]].lower(),
             axis=1
         )
-        result["coverage"] = f'{same_form_heuristic.sum() / length * 100:.2f}%'
-        result["correlation"] = self._get_correlation(
+        result["coverage"]['base'] = f'{same_form_heuristic.sum() / length * 100:.2f}%'
+        result["correlation"]['base'] = self._get_correlation(
             heuristic_result=same_form_heuristic,
             data=data
         )
@@ -60,12 +60,12 @@ class WordInContextHeuristics(BasicHeuristics):
 
         result["check_substring_train"] = self.check_substring(data=self.train, length=len(self.train))
         result["vocab_intersection_train"] = self.heuristic_vocab_intersection(data=self.train, length=len(self.train))
-        result["same_form_heuristic"] = self.heuristic_same_form(data=self.train, length=len(self.train))
+        result["same_form_train"] = self.heuristic_same_form(data=self.train, length=len(self.train))
         if self.valid is not None:
             result["check_substring_valid"] = self.check_substring(data=self.valid, length=len(self.valid))
             result["vocab_intersection_valid"] = self.heuristic_vocab_intersection(data=self.valid,
                                                                                    length=len(self.valid))
-            result["same_form_heuristic"] = self.heuristic_same_form(data=self.train, length=len(self.train))
+            result["same_form_valid"] = self.heuristic_same_form(data=self.train, length=len(self.train))
         if render_pandas:
             result = self._render_pandas_results(res_dict=result)
 
