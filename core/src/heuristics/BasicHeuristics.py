@@ -276,7 +276,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         plt.figure(figsize=(3, 3))
         _ = plt.title('Label distribution in train data', fontsize=10)
         _ = plt.pie(self.train[self.target_name].value_counts(),
-                    autopct="%.1f%%", explode=[0.05] * 2,
+                    autopct="%.1f%%", explode=[0.05] * len(self.target_list),
                     labels=self.train[self.target_name].value_counts().keys(),
                     pctdistance=0.5, textprops=dict(fontsize=8))
         plt.savefig(f"{self.output_dir}/Label_distribution_in_train_data.png")
@@ -285,7 +285,9 @@ class BasicHeuristics(BaseHeuristicSolver):
 
         if self.valid is not None:
             _ = plt.title('Label distribution in validation data', fontsize=10)
-            _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
+            _ = plt.pie(self.valid[self.target_name].value_counts(),
+                        autopct="%.1f%%",
+                        explode=[0.05] * len(self.target_list),
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=8))
             plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data.png")
