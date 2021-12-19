@@ -269,7 +269,9 @@ class BasicHeuristics(BaseHeuristicSolver):
         :param column_name: column to compute box plot
         :return: sns.boxplot
         """
-        return sns.boxplot(x=self.target_name, y=column_name, data=data)
+        box = sns.boxplot(x=self.target_name, y=column_name, data=data)
+        _ = box.tick_params(labelsize=8)
+        return box
 
     def get_visuals(self):
 
@@ -279,7 +281,7 @@ class BasicHeuristics(BaseHeuristicSolver):
                     autopct="%.1f%%", explode=[0.05] * len(self.target_list),
                     labels=self.train[self.target_name].value_counts().keys(),
                     pctdistance=0.5, textprops=dict(fontsize=8))
-        plt.savefig(f"{self.output_dir}/Label_distribution_in_train_data.png")
+        plt.savefig(f"{self.output_dir}/Label_distribution_in_train_data.png", bbox_inches="tight")
         plt.close()
         self.check_number_of_words(data=self.train)
 
@@ -290,7 +292,7 @@ class BasicHeuristics(BaseHeuristicSolver):
                         explode=[0.05] * len(self.target_list),
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=8))
-            plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data.png")
+            plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data.png", bbox_inches="tight")
             plt.close()
             self.check_number_of_words(data=self.valid)
 
