@@ -17,4 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+RUN ln -s ../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js static/js
+RUN ln -s ../../node_modules/jquery/dist/jquery.min.js static/js
+RUN ln -s ../../node_modules/bootstrap/dist/css/bootstrap.min.css static/css
+
 CMD [ "python", "./app.py" ]

@@ -20,26 +20,40 @@ Then in console run:
 python main.py
 ```
 
+
+Before running locally, please install node_modules and add symbolic links to them
+```shell
+npm install
+ln -s ../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js static/js
+ln -s ../../node_modules/jquery/dist/jquery.min.js static/js
+ln -s ../../node_modules/bootstrap/dist/css/bootstrap.min.css static/css
+```
+
+## Run locally
+ ```shell
+python app.py
+```
+
 ## Run with Docker
  ```shell
 docker-compose build
 docker-compose up
 ```
 
-## Heuristics 
+## Heuristics
 
 | heuristic                                             | requirements                                   | approximate time |
 | ----------------------------------------------------- | ---------------------------------------------- | ---------------- |
 | one is a substring of another                         | none                                           | *5.6s all*       |
-| vocabulary overlap by 1/3                             | lemmatisation                                  | *5.6s all* 
-| vocabulary overlap by 3/4                             | lemmatisation                                  | *5.6s all* 
-| vocabulary overlap by 2/3                             | lemmatisation                                  | *5.6s all* 
-| vocabulary overlap by 100%                            | lemmatisation                                  | *5.6s all* 
-| less than some words                                  | calculate correlation                          | *5.6s all* 
-| more than some words                                  | calculate correlation                          | *5.6s all* 
+| vocabulary overlap by 1/3                             | lemmatisation                                  | *5.6s all*
+| vocabulary overlap by 3/4                             | lemmatisation                                  | *5.6s all*
+| vocabulary overlap by 2/3                             | lemmatisation                                  | *5.6s all*
+| vocabulary overlap by 100%                            | lemmatisation                                  | *5.6s all*
+| less than some words                                  | calculate correlation                          | *5.6s all*
+| more than some words                                  | calculate correlation                          | *5.6s all*
 | presence of specific words                            | calculate correlation?? how? eli5 or manually? |  411ms           |
 | Parus heuristic (more shared lemmas with the premise) | lemmatisation                                  | **8.9s all**     |
-| Parus heuristic (more words than in another)          | lemmatisation                                  | **8.9s all**  
+| Parus heuristic (more words than in another)          | lemmatisation                                  | **8.9s all**
 | all lemmas occur                                      | lemmatisation                                  | *15s  all*       |
 | some number of overlapping lemmas                     | calculate correlation, lemmatisation           | *15s  all*
 | difference btw number of tokens                       | none                                           | 400ms            |
