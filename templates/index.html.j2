@@ -26,10 +26,26 @@
 {% block header %}
     <!-- Header - set the background image for the header in the line below-->
     <header class="py-5 bg-image-full" style="background-image: url('https://thumb.tildacdn.com/tild3564-3064-4834-a233-626437323263/-/format/webp/Vector_21.png')">
-        <div class="text-center my-5" style="color: white;">
+        <div class="text-center my-5" style="color: white; height: 50px; margin: 30px 20px 30px 40px;">
             <h1 class="text-white-50 mb-0">Heuristic-proof &#10003;</h1>
-            <h2 class="text-main-page">An Open Source Solution for checking your text for simple heurisrics on the Russian SuperGLUE(Iazykova, et. 2021)</p>
-            <p class="text-aux-main-page">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
+            <h2 class="text-main-page">An Open Source Solution for checking your text for simple heurisrics on the Russian SuperGLUE (Iazykova, et al., 2021)</p>
+            <!-- <p class="text-aux-main-page">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>-->
+            <!-- <p class="text-white-50 mb-0">Find the Relevant Guide</p>-->
+
+            <p>
+               <h2>How to upload your dataset?</h2>
+               <ol style="text-align: left">
+               <li>Before uploading your dataset, make sure that it is saved in one of the required formats .csv, .xls, .xlsx, .json, .jsonl,</li>
+               <li>Click on the Load your data button,</li>
+               <li>The next step is to choose one of our dataset types: Base, RUSSE or MuSeRC. You can read more about them in the Our Datasets guide section,</li>
+               <li>In your dataset select the names of two columns with data and the one with target.</li>
+               <li>Write these names in the Column 1, Column 2 and Target Name fields respectively,</li>
+               <li>For RUSSE dataset type also specify four more columns with starts and ends, </li>
+               <li>Drop your dataset file in the corresponding field,</li>
+               <li>Click on Submit and Upload.</li>
+               </ol>
+            </p>
+            
             <p><a class="btn btn-lg btn-primary" href="/load_dataset">Load your data</a></p>
             </div>
         </div>
