@@ -7784,6 +7784,46 @@ textarea.form-control-lg {
   color: rgba(255, 255, 255, 0.5) !important;
 }
 
+.text-main-page {
+  font-size: 44px;
+  line-height: 1.2;
+  color: #ffffff;
+  font-family: 'Quicksand',Arial,sans-serif;
+  font-weight: 700;
+  background-position: center center;
+  border-color: transparent;
+  border-style: solid;
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: content-box;
+  visibility: visible;
+}
+
+.text-aux-main-page {
+  line-height: 1.5;
+  color: #ffffff;
+  font-size: 19px;
+  font-family: 'Quicksand',Arial,sans-serif;
+  font-weight: 500;
+  background-position: center left;
+  border-color: transparent;
+  border-style: solid;
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: content-box;
+  visibility: visible;
+  box-sizing: content-box;
+  box-sizing: content-box;
+}
+
 .text-reset {
   --bs-text-opacity: 1;
   color: inherit !important;
