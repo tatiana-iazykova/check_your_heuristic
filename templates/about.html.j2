@@ -29,6 +29,34 @@
         <div class="text-center my-5">
             <h1 class="text-white fs-3 fw-bolder">FAQ</h1>
             <p class="text-white-50 mb-0">Find the Relevant Guide</p>
+            <p>
+               <h2>How to upload your dataset?</h2>
+               <ol>
+               <li>Before uploading your dataset, make sure that it is saved in one of the required formats .csv, .xls, .xlsx, .json, .jsonl,</li>
+               <li>Click on the Load your data button,</li>
+               <li>The next step is to choose one of our dataset types: Base, RUSSE or MuSeRC. You can read more about them in the Our Datasets guide section,</li>
+               <li>In your dataset select the names of two columns with data and the one with target.</li>
+               <li>Write these names in the Column 1, Column 2 and Target Name fields respectively,</li>
+               <li>For RUSSE dataset type also specify four more columns with starts and ends, </li>
+               <li>Drop your dataset file in the corresponding field,</li>
+               <li>Click on Submit and Upload.</li>
+               </ol>
+            </p>
+            <p>
+              <h2>What are the results?</h2>
+              After you have uploaded the dataset and clicked on Submit and Upload button, you will see a page with the following data:
+              <ol>
+              <li>The table showing the correlation of heuristics with the target and the coverage percentage,</li>
+              <li>Basic statistics: Relations between label and words number from the first column, relations between and words number from the second column and label distribution of classes,</li>
+              <li>Classification reports: majority, random and random-balanced.</li>
+              </ol>
+            </p>
+            <p>We have three types of datasets, Base, MuSeRC, RUSSE.
+               Base structure is the simplest one. There are two columns of text and one column with a target. 
+               MuSeRC is a more complex structure, in addition to two columns with text and a target, there is also a paragraph column. The latter is not displayed yet in the uploading form but will be added later.
+               For the RUSSE type, there are four more columns start1, start2, end1, end2.
+               Depending on which type you choose, you will have a certain number of fields to fill in when loading your dataset. 
+             </p>
             </div>
         </div>
         <div style="height: 40rem"></div>
@@ -48,16 +76,6 @@
         <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>What is your Data?</h1>
-            <p>The Guide to Available Dataset Types</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-        <div class="container">
-          <div class="carousel-caption">
             <h1>How to Test your Data</h1>
             <p>A Guide to Upload your Dataset</p>
             <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
@@ -67,9 +85,19 @@
       <div class="carousel-item">
         <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
         <div class="container">
+          <div class="carousel-caption">
+            <h1>See your dataset statistics</h1>
+            <p>A Heuristic checks Guide</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <div class="container">
           <div class="carousel-caption text-end">
-            <h1>What is RussianSuperGLUE</h1>
-            <p>Learn about the Benchmark and its Vulnerability to Shallow Heuristics</p>
+            <h1>Our Datasets guide</h1>
+            <p>Learn about the dataset types available to check your data</p>
             <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
           </div>
         </div>
