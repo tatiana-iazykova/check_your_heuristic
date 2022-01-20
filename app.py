@@ -12,7 +12,7 @@ import pandas as pd
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-
+variable = "unique_token"
 
 app.config.update(
     UPLOADED_PATH=os.path.join(basedir, 'uploads'),
@@ -24,7 +24,7 @@ app.config.update(
     DROPZONE_IN_FORM=True,
     DROPZONE_UPLOAD_ON_CLICK=True,
     DROPZONE_UPLOAD_ACTION='handle_upload',  # URL or endpoint
-    DROPZONE_UPLOAD_BTN_ID='submit',
+    DROPZONE_UPLOAD_BTN_ID='submit'
 )
 
 dropzone = Dropzone(app)
@@ -32,6 +32,9 @@ dropzone = Dropzone(app)
 """
     ROUTES
 """
+def get_token(i=1):
+    return f"unique_token{i}"
+
 @app.route('/')
 def index():
     return render_template('index.html.j2')
@@ -42,7 +45,9 @@ def guides():
 
 @app.route('/load_dataset')
 def submit_dataset():
-    return render_template('submission.html.j2')
+    global variable
+    variable = get_token(i=6)
+    return render_template('submission.html.j2', variable=variable)
 
 @app.route('/contacts')
 def contacts():
@@ -58,7 +63,9 @@ def handle_upload():
         for key, f in request.files.items():
             _, file_extension = os.path.splitext(f.filename)
             if key.startswith('file'):
-                save_dir = os.path.join(app.config['UPLOADED_PATH'], f.filename)
+                global variable
+                filename = variable + file_extension
+                save_dir = os.path.join(app.config['UPLOADED_PATH'], filename)#f.filename)
                 f.save(save_dir)
                 logger.write(f"{Path(repr(save_dir)[1:-1]).relative_to(mod_path)}\n")
     return '', 204
@@ -66,6 +73,7 @@ def handle_upload():
 
 @app.route('/form', methods=['POST', 'GET'])
 def handle_form():
+    print(request.form.get('token'))
     logger_path = os.path.join(app.config['UPLOADED_PATH'], "logger.txt")
     file_path = open(logger_path).readlines()[-1].strip()
     dataset_type = request.form.get('dataset_type')
