@@ -10,8 +10,8 @@ class WordInContextHeuristics(BasicHeuristics):
     Basic Heuristics for the Word-in-Context-like datasets (RUSSE in Russian SuperGLUE)
     """
 
-    def __init__(self, config: Dict[str, Any], dataset: Dataset):
-        super(WordInContextHeuristics, self).__init__(dataset=dataset, config=config)
+    def __init__(self, config: Dict[str, Any], dataset: Dataset, variable: str):
+        super(WordInContextHeuristics, self).__init__(dataset=dataset, config=config, variable=variable)
         self.column_1 = config["column_name1"]
         self.column_2 = config["column_name2"]
         self.start1 = config["start1"]

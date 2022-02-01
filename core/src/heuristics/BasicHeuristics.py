@@ -11,11 +11,12 @@ from pathlib import Path
 
 class BasicHeuristics(BaseHeuristicSolver):
 
-    def __init__(self, config: Dict[str, Any], dataset: Dataset, output_dir: str = None):
+    def __init__(self, config: Dict[str, Any], dataset: Dataset, output_dir: str = None, variable: str = None):
         super(BaseHeuristicSolver, self).__init__(dataset=dataset, config=config)
         self.column_1 = config["column_name1"]
         self.column_2 = config["column_name2"]
         self.target_list = get_target_list(self.train[self.target_name])
+        self.variable = variable
         self.output_dir = output_dir if output_dir is not None \
             else Path(__file__).parent.parent.parent.parent / "static/uploads"
 
@@ -76,7 +77,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         _ = plt.xlabel("Labels")
         _ = plt.ylabel("Number of words")
         plt.tight_layout()
-        plt.savefig(f"{self.output_dir}/lengths.png", bbox_inches="tight")
+        plt.savefig(f"{self.output_dir}/lengths_{self.variable}.png", bbox_inches="tight")
         plt.close()
         print(result)
         return result
@@ -281,7 +282,7 @@ class BasicHeuristics(BaseHeuristicSolver):
                     autopct="%.1f%%", explode=[0.05] * len(self.target_list),
                     labels=self.train[self.target_name].value_counts().keys(),
                     pctdistance=0.5, textprops=dict(fontsize=8))
-        plt.savefig(f"{self.output_dir}/Label_distribution_in_train_data.png", bbox_inches="tight")
+        plt.savefig(f"{self.output_dir}/Label_distribution_{self.variable}.png", bbox_inches="tight")
         plt.close()
         self.check_number_of_words(data=self.train)
 
@@ -292,7 +293,8 @@ class BasicHeuristics(BaseHeuristicSolver):
                         explode=[0.05] * len(self.target_list),
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=8))
-            plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data.png", bbox_inches="tight")
+            plt.savefig(f"{self.output_dir}/Label_distribution_in_validation_data_{self.variable}.png",
+                        bbox_inches="tight")
             plt.close()
             self.check_number_of_words(data=self.valid)
 

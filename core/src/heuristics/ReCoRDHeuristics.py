@@ -8,8 +8,8 @@ import logging
 
 
 class ReCoRDHeuristics(BaseHeuristicSolver):
-    def __init__(self, config: Dict[str, Any], dataset: ReCoRDDataset):
-        super(BaseHeuristicSolver, self).__init__(dataset=dataset, config=config)
+    def __init__(self, config: Dict[str, Any], dataset: ReCoRDDataset, variable: str):
+        super(BaseHeuristicSolver, self).__init__(dataset=dataset, config=config, variable=variable)
         self.passage_column = config["passage_column"]
         self.question_column = config["question_column"]
         self.entities_column = config["entities_column"]

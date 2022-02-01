@@ -6,7 +6,8 @@ from core.src.dataset.MultiRCDataset import MultiRCDataset
 from core.src.heuristics.BasicHeuristics import BasicHeuristics
 from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
 from pathlib import Path
-import pandas as pd
+from uuid import uuid4
+from datetime import datetime
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -34,8 +35,10 @@ dropzone = Dropzone(app)
 """
 
 
-def get_token(i=1):
-    return f"unique_token{i}"
+def get_token():
+    rand_token = uuid4()
+    date = datetime.now()
+    return f"{rand_token}{date}"
 
 
 @app.route('/')
@@ -51,7 +54,7 @@ def guides():
 @app.route('/load_dataset')
 def submit_dataset():
     global variable
-    variable = get_token(i=6)
+    variable = get_token()
     return render_template('submission.html.j2', variable=variable)
 
 
@@ -143,15 +146,17 @@ def get_classification_reports(solver):
 
 
 def heuristic_library(dataset_type, config):
+    global variable
+
     if dataset_type == 'WordInContext':
         dataset = Dataset(path=config['train_dataset_dir'])
-        solver = WordInContextHeuristics(dataset=dataset, config=config)
+        solver = WordInContextHeuristics(dataset=dataset, config=config, variable=variable)
     elif dataset_type == "MultiRC":
         dataset = MultiRCDataset(path=config['train_dataset_dir'])
-        solver = BasicHeuristics(dataset=dataset, config=config)
+        solver = BasicHeuristics(dataset=dataset, config=config, variable=variable)
     elif dataset_type == 'Base':
         dataset = Dataset(path=config['train_dataset_dir'])
-        solver = BasicHeuristics(dataset=dataset, config=config)
+        solver = BasicHeuristics(dataset=dataset, config=config, variable=variable)
 
     solver.get_visuals()
     return solver
