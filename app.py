@@ -32,16 +32,21 @@ dropzone = Dropzone(app)
 """
     ROUTES
 """
+
+
 def get_token(i=1):
     return f"unique_token{i}"
+
 
 @app.route('/')
 def index():
     return render_template('index.html.j2')
 
+
 @app.route('/about')
 def guides():
     return render_template('about.html.j2')
+
 
 @app.route('/load_dataset')
 def submit_dataset():
@@ -49,13 +54,17 @@ def submit_dataset():
     variable = get_token(i=6)
     return render_template('submission.html.j2', variable=variable)
 
+
 @app.route('/contacts')
 def contacts():
     return render_template('contacts.html.j2')
 
+
 """
     METHODS
 """
+
+
 @app.route('/upload', methods=['POST', 'GET'])
 def handle_upload():
     mod_path = Path(__file__).parent
@@ -65,7 +74,7 @@ def handle_upload():
             if key.startswith('file'):
                 global variable
                 filename = variable + file_extension
-                save_dir = os.path.join(app.config['UPLOADED_PATH'], filename)#f.filename)
+                save_dir = os.path.join(app.config['UPLOADED_PATH'], filename)
                 f.save(save_dir)
                 logger.write(f"{Path(repr(save_dir)[1:-1]).relative_to(mod_path)}\n")
     return '', 204
@@ -95,7 +104,6 @@ def handle_form():
         solver = heuristic_library(dataset_type=dataset_type, config=config)
     except KeyError:
         return render_template('wrong_column.html.j2')
-
 
     path_to_visuals = Path(__file__).parent / "static/uploads"
     return render_template(
