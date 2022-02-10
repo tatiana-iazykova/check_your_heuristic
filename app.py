@@ -71,23 +71,21 @@ def contacts():
 @app.route('/upload', methods=['POST', 'GET'])
 def handle_upload():
     mod_path = Path(__file__).parent
-    with open(os.path.join(app.config['UPLOADED_PATH'], "logger.txt"), "w", encoding="utf-8") as logger:
-        for key, f in request.files.items():
-            _, file_extension = os.path.splitext(f.filename)
-            if key.startswith('file'):
-                global variable
-                filename = variable + file_extension
-                save_dir = os.path.join(app.config['UPLOADED_PATH'], filename)
-                f.save(save_dir)
-                logger.write(f"{Path(repr(save_dir)[1:-1]).relative_to(mod_path)}\n")
+    for key, f in request.files.items():
+        _, file_extension = os.path.splitext(f.filename)
+        if key.startswith('file'):
+            global variable
+            filename = variable + file_extension
+            save_dir = os.path.join(app.config['UPLOADED_PATH'], filename)
+            f.save(save_dir)
     return '', 204
 
 
 @app.route('/form', methods=['POST', 'GET'])
 def handle_form():
     print(request.form.get('token'))
-    logger_path = os.path.join(app.config['UPLOADED_PATH'], "logger.txt")
-    file_path = open(logger_path).readlines()[-1].strip()
+    global variable
+    file_path = [f for f in os.listdir(app.config['UPLOADED_PATH']) if variable in f][0]
     dataset_type = request.form.get('dataset_type')
 
     config = dict(
