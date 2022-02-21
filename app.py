@@ -7,7 +7,6 @@ from core.src.heuristics.BasicHeuristics import BasicHeuristics
 from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
 from pathlib import Path
 from uuid import uuid4
-from datetime import datetime
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -37,8 +36,7 @@ dropzone = Dropzone(app)
 
 def get_token():
     rand_token = uuid4()
-    date = datetime.now()
-    return f"{rand_token}{date}"
+    return f"{rand_token}"
 
 
 @app.route('/')
@@ -83,9 +81,10 @@ def handle_upload():
 
 @app.route('/form', methods=['POST', 'GET'])
 def handle_form():
-    print(request.form.get('token'))
     global variable
     file_path = [f for f in os.listdir(app.config['UPLOADED_PATH']) if variable in f][0]
+    file_path = os.path.join(app.config['UPLOADED_PATH'], file_path)
+    print(file_path)
     dataset_type = request.form.get('dataset_type')
 
     config = dict(
