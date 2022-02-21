@@ -36,8 +36,6 @@ class BaseSolver:
             test_size = len(self.valid)
             y_true = list(self.valid.label)
         else:
-            print("There are no Validation/Test set in this task")
-            print("Making Predictions for Train dataset")
             test_size = len(self.train)
             y_true = self.train[self.target_name]
             

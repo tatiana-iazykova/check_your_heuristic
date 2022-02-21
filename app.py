@@ -7,6 +7,10 @@ from core.src.heuristics.BasicHeuristics import BasicHeuristics
 from core.src.heuristics.WordInContextHeuristics import WordInContextHeuristics
 from pathlib import Path
 from uuid import uuid4
+import warnings
+
+warnings.filterwarnings("ignore")
+
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -84,7 +88,6 @@ def handle_form():
     global variable
     file_path = [f for f in os.listdir(app.config['UPLOADED_PATH']) if variable in f][0]
     file_path = os.path.join(app.config['UPLOADED_PATH'], file_path)
-    print(file_path)
     dataset_type = request.form.get('dataset_type')
 
     config = dict(

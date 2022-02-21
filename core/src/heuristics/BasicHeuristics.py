@@ -79,7 +79,6 @@ class BasicHeuristics(BaseHeuristicSolver):
         plt.tight_layout()
         plt.savefig(f"{self.output_dir}/lengths_{self.variable}.png", bbox_inches="tight")
         plt.close()
-        print(result)
         return result
 
     def check_substring(self, data: pd.DataFrame, length: int) -> Dict[str, Dict[str, Union[str, Dict[str, str]]]]:
@@ -208,7 +207,7 @@ class BasicHeuristics(BaseHeuristicSolver):
 
     def check_heuristics(self, render_pandas=False) -> Dict[str, Dict[str, Union[str, Dict[str, Dict[str, str]]]]]:
         """
-        Checks how the heuristics are present in the data sets and prints the results
+        Checks how the heuristics are present in the data sets
         :return: json-like objects with all the heuristics
         """
         result = dict()
