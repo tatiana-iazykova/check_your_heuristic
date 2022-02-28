@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
-  name = 'src',       
-  packages = ['src'], 
+  name = 'check_your_heuristic',       
+  packages = ['check_your_heuristic'], 
   version = '0.1',    
   license='MIT',      
   description = 'Small library which aim is to check your dataset for being solved by simple heuristics. Multilingual! ',
