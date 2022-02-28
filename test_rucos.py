@@ -1,5 +1,5 @@
-from src.heuristics.ReCoRDHeuristics import ReCoRDHeuristics
-from src.dataset.ReCoRDDataset import ReCoRDDataset
+from check_your_heuristic.heuristics.ReCoRDHeuristics import ReCoRDHeuristics
+from check_your_heuristic.dataset.ReCoRDDataset import ReCoRDDataset
 import warnings
 warnings.filterwarnings("ignore")
 

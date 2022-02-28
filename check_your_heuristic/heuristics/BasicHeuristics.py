@@ -1,8 +1,8 @@
-from src.dataset.Dataset import Dataset
-from src.heuristics.Heuristic import BaseHeuristicSolver
+from check_your_heuristic.dataset.Dataset import Dataset
+from check_your_heuristic.heuristics.Heuristic import BaseHeuristicSolver
 from typing import Dict, Any, Union, Tuple
 import pandas as pd
-from src.utils import get_target_list
+from check_your_heuristic.utils import get_target_list
 from collections import Counter
 import matplotlib.pyplot as plt
 import seaborn as sns

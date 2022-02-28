@@ -1,5 +1,5 @@
-from src.heuristics.WordInContextHeuristics import WordInContextHeuristics
-from src.dataset.Dataset import Dataset
+from check_your_heuristic.heuristics.WordInContextHeuristics import WordInContextHeuristics
+from check_your_heuristic.dataset.Dataset import Dataset
 import warnings
 warnings.filterwarnings("ignore")
 

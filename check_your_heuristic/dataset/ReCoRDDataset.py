@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from src.dataset.MultiRCDataset import MultiRCDataset
+from check_your_heuristic.dataset.MultiRCDataset import MultiRCDataset
 from typing import Any, Tuple
 
 
