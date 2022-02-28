@@ -11,16 +11,16 @@ setup(
   download_url = 'https://github.com/tatiana-iazykova/check_your_heuristic/archive/refs/tags/v_01.tar.gz',   
   keywords = ['heuristics', 'rule-based', 'language models', 'natural language understanding', 'nlp'], 
   install_requires=[           
-          'numpy==1.19.5'
-          'pandas==1.1.5'
-          'scikit-learn==1.0'
-          'pymorphy2==0.9.1'
-          'pyyaml==6.0'
-          'nptyping==1.4.4'
-          'parameterized==0.8.1'
-          'openpyxl==3.0.9'
-          'matplotlib==3.4.3'
-          'seaborn==0.11.2'
+          'numpy==1.19.5',
+          'pandas==1.1.5',
+          'scikit-learn==1.0',
+          'pymorphy2==0.9.1',
+          'pyyaml==6.0',
+          'nptyping==1.4.4',
+          'parameterized==0.8.1',
+          'openpyxl==3.0.9',
+          'matplotlib==3.4.3',
+          'seaborn==0.11.2',
       ],
   classifiers=[
     'Development Status :: 3 - Alpha',    
