@@ -2,9 +2,9 @@ import unittest
 
 from parameterized import parameterized
 
-from src.Base import BaseSolver
-from src.dataset.Dataset import Dataset
-from src.utils import load_config
+from check_your_heuristic.Base import BaseSolver
+from check_your_heuristic.dataset.Dataset import Dataset
+from check_your_heuristic.utils import load_config
 
 
 class TestBaseSolver(unittest.TestCase):
