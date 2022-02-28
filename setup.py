@@ -15,7 +15,7 @@ setup(
           'pandas==1.1.5',
           'scikit-learn==1.0',
           'pymorphy2==0.9.1',
-          'pyyaml==6.0',
+          'pyyaml',
           'nptyping==1.4.4',
           'parameterized==0.8.1',
           'openpyxl==3.0.9',
