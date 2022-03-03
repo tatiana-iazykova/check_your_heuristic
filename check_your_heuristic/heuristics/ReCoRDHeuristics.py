@@ -1,5 +1,5 @@
-from src.dataset.ReCoRDDataset import ReCoRDDataset
-from src.heuristics.Heuristic import BaseHeuristicSolver
+from check_your_heuristic.dataset.ReCoRDDataset import ReCoRDDataset
+from check_your_heuristic.heuristics.Heuristic import BaseHeuristicSolver
 from typing import Dict, Any, List
 import pandas as pd
 import string

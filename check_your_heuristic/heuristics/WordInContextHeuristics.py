@@ -1,6 +1,6 @@
-from src.dataset.Dataset import Dataset
-from src.heuristics.BasicHeuristics import BasicHeuristics
-from src.utils import get_target_list
+from check_your_heuristic.dataset.Dataset import Dataset
+from check_your_heuristic.heuristics.BasicHeuristics import BasicHeuristics
+from check_your_heuristic.utils import get_target_list
 from typing import Dict, Any, Union
 import pandas as pd
 

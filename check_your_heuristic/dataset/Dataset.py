@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from src.dataset.BaseDataset import BaseDataset
+from check_your_heuristic.dataset.BaseDataset import BaseDataset
 import os
 
 

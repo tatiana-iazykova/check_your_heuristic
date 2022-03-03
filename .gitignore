@@ -1,10 +1,10 @@
 venv/
 .idea/
-src/__pycache__/
+check_your_heuristic/__pycache__/
 .vscode/
 tests/__pycache__
 output/*.png
-src/dataset/__pycache__/
-src/heuristics/__pycache__/
+check_your_heuristic/dataset/__pycache__/
+check_your_heuristic/heuristics/__pycache__/
 .ipynb_checkpoints/
 *.ipynb

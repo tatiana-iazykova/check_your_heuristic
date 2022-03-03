@@ -1,5 +1,5 @@
-from src.heuristics.BasicHeuristics import BasicHeuristics
-from src.dataset.MultiRCDataset import MultiRCDataset
+from check_your_heuristic.heuristics.BasicHeuristics import BasicHeuristics
+from check_your_heuristic.dataset.MultiRCDataset import MultiRCDataset
 import warnings
 warnings.filterwarnings("ignore")
 
