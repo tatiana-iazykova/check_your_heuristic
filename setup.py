@@ -1,15 +1,14 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
+
 setup(
-  name = 'check_your_heuristic',       
-  packages = ['check_your_heuristic'], 
-  version = '0.1',    
+  name='check_your_heuristic',
+  version='0.1',
   license='MIT',      
-  description = 'Small library which aim is to check your dataset for being solved by simple heuristics. Multilingual! ',
-  author = 'Tatiana Iazykova, Olga Bystrova, Denis Kapelyushnik ',        
-  author_email = 'tania_yazykova@bk.ru',    
-  url = 'https://github.com/tatiana-iazykova/check_your_heuristic', 
-  download_url = 'https://github.com/tatiana-iazykova/check_your_heuristic/archive/refs/tags/v_01.tar.gz',   
-  keywords = ['heuristics', 'rule-based', 'language models', 'natural language understanding', 'nlp'], 
+  description='Small library which aim is to check your dataset for being solved by simple heuristics. Multilingual! ',
+  author='Tatiana Iazykova, Olga Bystrova, Denis Kapelyushnik ',
+  author_email='tania_yazykova@bk.ru',
+  keywords=['heuristics', 'rule-based', 'language models', 'natural language understanding', 'nlp'],
+  packages=find_packages(),
   install_requires=[           
           'numpy>=1.21.5',
           'pandas>=1.1.5',
