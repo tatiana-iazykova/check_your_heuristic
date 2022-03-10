@@ -1,7 +1,6 @@
 # check_your_heuristic
 
 #Quick start
-Python >= 3.7 is required
 
 ## Installation
 
