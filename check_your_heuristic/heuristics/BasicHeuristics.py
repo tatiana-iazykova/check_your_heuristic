@@ -15,6 +15,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         self.column_1 = config["column_name1"]
         self.column_2 = config["column_name2"]
         self.target_list = get_target_list(self.train[self.target_name])
+        self.output_dir = config["output_dir"] if "output_dir" in config and config["output_dir"] else '.'
 
     @staticmethod
     def check_substring_function(text1: str, text2: str) -> Tuple[bool, bool]:
@@ -259,7 +260,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         plt.xlabel("Labels")
         plt.ylabel("Number of words")
         plt.title(f'Relation between label and number of words in {output_name}', fontsize=14)
-        plt.savefig(f"output/lengths_{output_name}.png")
+        plt.savefig(f"lengths_{output_name}.png")
         plt.close()
 
     def get_visuals(self):
@@ -267,7 +268,7 @@ class BasicHeuristics(BaseHeuristicSolver):
         _ = plt.title('Label distribution in train data', fontsize=14)
         _ = plt.pie(self.train[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                     labels=self.train[self.target_name].value_counts().keys(), pctdistance=0.5, textprops=dict(fontsize=12))
-        plt.savefig("output/Label_distribution_in_train_data.png")
+        plt.savefig("Label_distribution_in_train_data.png")
         plt.close()
         self.check_number_of_words(data=self.train)
 
@@ -276,7 +277,7 @@ class BasicHeuristics(BaseHeuristicSolver):
             _ = plt.pie(self.valid[self.target_name].value_counts(), autopct="%.1f%%", explode=[0.05] * 2,
                         labels=self.valid[self.target_name].value_counts().keys(), pctdistance=0.5,
                         textprops=dict(fontsize=12))
-            plt.savefig("output/Label_distribution_in_validation_data.png")
+            plt.savefig("Label_distribution_in_validation_data.png")
             plt.close()
             self.check_number_of_words(data=self.valid)
 

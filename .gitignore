@@ -8,3 +8,6 @@ check_your_heuristic/dataset/__pycache__/
 check_your_heuristic/heuristics/__pycache__/
 .ipynb_checkpoints/
 *.ipynb
+check_your_heuristic.egg-info/
+dist/
+build/

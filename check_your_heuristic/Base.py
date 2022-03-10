@@ -5,7 +5,10 @@ from sklearn.metrics import classification_report
 import pandas as pd
 from nptyping import NDArray
 from typing import Dict, Any, List, Union
-from check_your_heuristic.dataset.Dataset import Dataset
+from check_your_heuristic.dataset import Dataset
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 def seed_everything(seed: int):

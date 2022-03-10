@@ -1,8 +1,15 @@
 # check_your_heuristic
 
+#Quick start
 Python >= 3.7 is required
-```pip install -r requirements.txt```
 
+## Installation
+
+```
+pip install check_your_heuristic
+```
+
+## Configurations
 To check your dataset fill the [config](config.yaml), using **unix-like** paths.
 
 Example config:
@@ -14,23 +21,36 @@ column_name2: "hypothesis"
 target_name: "label"
 ```
 
-Then in console run:
- ```python
-python main.py
+Other config variations can be found [here](check_your_heuristic/configs.py)
+
+# CLI Use
+
+Our library offers four build-in commands for checking your datasets depending on the dataset structure you have
+
+1. Base case or two text columns + one target column 
+(for example, CommitmentBank from SuperGLUE or TERRa from Russian SuperFLUE)
+
+```
+run-base-case --path_to_config config.yaml 
 ```
 
-| heuristic                                             | requirements                                   | approximate time |
-| ----------------------------------------------------- | ---------------------------------------------- | ---------------- |
-| one is a substring of another                         | none                                           | *5.6s all*       |
-| vocabulary overlap by 1/3                             | lemmatisation                                  | *5.6s all* 
-| vocabulary overlap by 3/4                             | lemmatisation                                  | *5.6s all* 
-| vocabulary overlap by 2/3                             | lemmatisation                                  | *5.6s all* 
-| vocabulary overlap by 100%                            | lemmatisation                                  | *5.6s all* 
-| less than some words                                  | calculate correlation                          | *5.6s all* 
-| more than some words                                  | calculate correlation                          | *5.6s all* 
-| presence of specific words                            | calculate correlation?? how? eli5 or manually? |  411ms           |
-| Parus heuristic (more shared lemmas with the premise) | lemmatisation                                  | **8.9s all**     |
-| Parus heuristic (more words than in another)          | lemmatisation                                  | **8.9s all**  
-| all lemmas occur                                      | lemmatisation                                  | *15s  all*       |
-| some number of overlapping lemmas                     | calculate correlation, lemmatisation           | *15s  all*
-| difference btw number of tokens                       | none                                           | 400ms            |
+2. When you have some long text and some questions and answers for it
+(for example, MultiRC from SuperGLUE or MuSeRC from Russian SuperFLUE)
+
+```
+run-multirc-case --path_to_config config.yaml 
+```
+
+3. When you have passage, questions and some NERs (or entities) that serve as answers
+(for example, ReCoRD from SuperGLUE or RuCoS from Russian SuperFLUE)
+
+```
+run-record-case --path_to_config config.yaml 
+```
+
+4. Case when you have two cases and need to compare some words in them
+(for example, Words in Context (WiC) from SuperGLUE or RUSSE from Russian SuperFLUE)
+
+```
+run-wordincontext-case --path_to_config config.yaml 
+```
