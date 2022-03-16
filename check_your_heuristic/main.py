@@ -9,7 +9,8 @@ def base_case():
 
     config = load_config(args.path_to_config)
 
-    dataset = Dataset(path=config['train_dataset_dir'], path_valid=config['valid_dataset_dir'])
+    path_valid = config['valid_dataset_dir'] if 'valid_dataset_dir' in config else None
+    dataset = Dataset(path=config['train_dataset_dir'], path_valid=path_valid)
     solver = BasicHeuristics(dataset=dataset, config=config)
 
     solver.get_visuals()
@@ -23,7 +24,9 @@ def multirc_case():
 
     config = load_config(args.path_to_config)
 
-    dataset = MultiRCDataset(path=config['train_dataset_dir'], path_valid=config['valid_dataset_dir'])
+    path_valid = config['valid_dataset_dir'] if 'valid_dataset_dir' in config else None
+
+    dataset = MultiRCDataset(path=config['train_dataset_dir'], path_valid=path_valid)
     solver = BasicHeuristics(dataset=dataset, config=config)
 
     solver.get_visuals()
@@ -37,7 +40,9 @@ def record_case():
 
     config = load_config(args.path_to_config)
 
-    dataset = ReCoRDDataset(path=config['train_dataset_dir'])
+    path_valid = config['valid_dataset_dir'] if 'valid_dataset_dir' in config else None
+
+    dataset = ReCoRDDataset(path=config['train_dataset_dir'], path_valid=path_valid)
     solver = ReCoRDHeuristics(dataset=dataset, config=config)
 
     solver.check_heuristics()
@@ -49,7 +54,9 @@ def wordincontext_case():
 
     config = load_config(args.path_to_config)
 
-    dataset = Dataset(path=config['train_dataset_dir'])
+    path_valid = config['valid_dataset_dir'] if 'valid_dataset_dir' in config else None
+
+    dataset = Dataset(path=config['train_dataset_dir'], path_valid=path_valid)
     solver = WordInContextHeuristics(dataset=dataset, config=config)
 
     solver.get_visuals()

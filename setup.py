@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='check_your_heuristic',
-    version='0.0.2b',
+    version='0.0.2',
     license='MIT',
     description='Small library which aim is to check your dataset for being solved by simple heuristics. Multilingual!',
     author='Tatiana Iazykova, Olga Bystrova, Denis Kapelyushnik',
